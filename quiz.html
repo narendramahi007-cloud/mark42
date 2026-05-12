@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Narendra Mahi | Professional DevOps Master Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg-pink: #fce4ec; --dark-pink: #f8bbd0; --accent: #ad1457; --text: #333; }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg-pink); color: var(--text); margin: 0; padding: 0; }
+        header { background: #f06292; padding: 25px; text-align: center; color: white; border-bottom: 4px solid var(--accent); }
+        .tabs { display: flex; flex-wrap: wrap; justify-content: center; background: var(--dark-pink); padding: 10px; position: sticky; top: 0; z-index: 100; gap: 8px; border-bottom: 2px solid #f48fb1; }
+        .tab-btn { background: #fff; border: 1px solid #f48fb1; color: var(--accent); padding: 10px 15px; cursor: pointer; font-weight: 600; font-size: 12px; border-radius: 20px; transition: 0.3s; text-transform: uppercase; }
+        .tab-btn.active { background: var(--accent); color: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .container { max-width: 1000px; margin: 30px auto; padding: 0 20px 120px 20px; }
+        .section-content { display: none; animation: fadeIn 0.5s ease; }
+        .section-content.active { display: block; }
+        .question-card { background: #fff; padding: 25px; border-radius: 15px; margin-bottom: 30px; border: 1px solid var(--dark-pink); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .q-text { font-size: 17px; font-weight: 600; margin-bottom: 15px; display: block; color: #880e4f; border-left: 5px solid var(--accent); padding-left: 15px; }
+        .options { display: grid; grid-template-columns: 1fr; gap: 10px; }
+        .opt { background: #fff5f8; padding: 12px; border-radius: 8px; cursor: pointer; transition: 0.2s; font-size: 14px; border: 1px solid #fce4ec; }
+        .opt:hover { background: #fce4ec; border-color: var(--accent); }
+        .correct { background: #c8e6c9 !important; color: #1b5e20 !important; border-color: #4caf50 !important; }
+        .wrong { background: #ffcdd2 !important; color: #b71c1c !important; border-color: #f44336 !important; }
+        .simple-ans { background: #fffde7; border: 1px dashed #fbc02d; padding: 15px; border-radius: 8px; margin-top: 15px; font-size: 14px; color: #5d4037; line-height: 1.5; display: none; }
+        .ans-label { font-weight: bold; color: #f57f17; display: block; margin-bottom: 5px; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        footer { position: fixed; bottom: 0; width: 100%; background: #f06292; color: white; text-align: center; padding: 15px; font-size: 13px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h2 style="margin:0;">Narendra Mahi | Professional DevOps Master Quiz</h2>
+    <p style="margin:5px 0 0; font-size:14px; opacity:0.9;">180+ Real Interview Questions & Explanations</p>
+</header>
+
+<nav class="tabs">
+    <button class="tab-btn active" onclick="showTab('interview')">Interview ★</button>
+    <button class="tab-btn" onclick="showTab('linux')">Linux</button>
+    <button class="tab-btn" onclick="showTab('landing')">Landing Zone</button>
+    <button class="tab-btn" onclick="showTab('azure')">Azure Core</button>
+    <button class="tab-btn" onclick="showTab('networking')">Networking</button>
+    <button class="tab-btn" onclick="showTab('storage')">Storage</button>
+    <button class="tab-btn" onclick="showTab('terraform')">Terraform</button>
+    <button class="tab-btn" onclick="showTab('cicd')">CI/CD Pipeline</button>
+    <button class="tab-btn" onclick="showTab('docker')">Docker & K8s</button>
+</nav>
+
+<div class="container">
+
+    <div id="interview" class="section-content active">
+        <div class="question-card">
+            <span class="q-text">1. What is Azure Key Vault and why do we use it?</span>
+            <div class="options">
+                <div class="opt" onclick="check(this,true)">To securely store and manage secrets, keys, and certificates.</div>
+                <div class="opt" onclick="check(this,false)">To store large backup files and images.</div>
+                <div class="opt" onclick="check(this,false)">To manage Virtual Machine IP addresses.</div>
+            </div>
+            <div class="simple-ans" style="display:block;"><span class="ans-label">Answer:</span> It is a centralized cloud service to protect sensitive data. It ensures credentials are not hardcoded in code, providing a secure way to manage secrets.</div>
+        </div>
+        <div class="question-card">
+            <span class="q-text">2. Why should the Terraform State file be stored on a Remote Backend?</span>
+            <div class="options">
+                <div class="opt" onclick="check(this,true)">To enable team collaboration and prevent state corruption via State Locking.</div>
+                <div class="opt" onclick="check(this,false)">To save disk space on the local machine.</div>
+                <div class="opt" onclick="check(this,false)">To hide the design from other team members.</div>
+            </div>
+            <div class="simple-ans" style="display:block;"><span class="ans-label">Answer:</span> It maps real resources to code. Remote storage allows team access, encryption at rest, and prevents two people from running 'apply' simultaneously (Locking).</div>
+        </div>
+        <div class="question-card">
+            <span class="q-text">3. What is 'Drift' in Terraform?</span>
+            <div class="options">
+                <div class="opt" onclick="check(this,true)">The difference between the actual Azure resources and the Terraform code.</div>
+                <div class="opt" onclick="check(this,false)">A command to move resources between regions.</div>
+                <div class="opt" onclick="check(this,false)">A way to delete the state file.</div>
+            </div>
+            <div class="simple-ans" style="display:block;"><span class="ans-label">Answer:</span> Drift occurs when real infrastructure changes (manually) and doesn't match the code. Terraform detects this during 'plan' and tries to reconcile it.</div>
+        </div>
+        <div class="question-card">
+            <span class="q-text">4. Explain Azure Storage Redundancy (LRS, GRS, ZRS).</span>
+            <div class="options">
+                <div class="opt" onclick="check(this,true)">Redundancy ensures data durability during hardware or regional failures.</div>
+                <div class="opt" onclick="check(this,false)">It is used to increase VM RAM speed.</div>
+                <div class="opt" onclick="check(this,false)">It is a mandatory billing requirement.</div>
+            </div>
+            <div class="simple-ans" style="display:block;"><span class="ans-label">Answer:</span> LRS is 3 copies in one DC. ZRS is across 3 zones in one region. GRS is replication to a secondary region for disaster recovery.</div>
+        </div>
+        <div class="question-card">
+            <span class="q-text">5. What is a Network Interface Card (NIC)?</span>
+            <div class="options">
+                <div class="opt" onclick="check(this,true)">The bridge between an Azure VM and its Virtual Network.</div>
+                <div class="opt" onclick="check(this,false)">A type of physical hard drive.</div>
+                <div class="opt" onclick="check(this,false)">A software for writing scripts.</div>
+            </div>
+            <div class="simple-ans" style="display:block;"><span class="ans-label">Answer:</span> Every VM needs a NIC to connect to a VNet. It holds the private and public IP configurations and handles all network traffic for that instance.</div>
+        </div>
+        <div class="question-card"><span class="q-text">6. What is the role of an API in Azure?</span><div class="options"><div class="opt" onclick="check(this,true)">A bridge that allows different software applications to talk to each other.</div><div class="opt" onclick="check(this,false)">A type of firewall.</div><div class="opt" onclick="check(this,false)">A billing tool.</div></div><div class="simple-ans" style="display:block;"><span class="ans-label">Answer:</span> It acts as a messenger that takes your order (request) to the system and brings back the response. It allows tools like Terraform to automate Azure resources.</div></div>
+        <div class="question-card"><span class="q-text">7. What happens if your State file is deleted?</span><div class="options"><div class="opt" onclick="check(this,true)">Terraform loses track of resources; you must 'import' them back.</div><div class="opt" onclick="check(this,false)">Azure resources are also deleted.</div><div class="opt" onclick="check(this,false)">Nothing happens.</div></div><div class="simple-ans" style="display:block;"><span class="ans-label">Answer:</span> Deleting state doesn't delete cloud resources, but Terraform won't know they exist. You must enable versioning on your remote backend to recover it.</div></div>
+        <div class="question-card"><span class="q-text">8. What is State File Locking?</span><div class="options"><div class="opt" onclick="check(this,true)">It prevents multiple users from modifying the state at the same time.</div><div class="opt" onclick="check(this,false)">It locks the cloud billing.</div><div class="opt" onclick="check(this,false)">It encrypts the .tf files.</div></div><div class="simple-ans" style="display:block;"><span class="ans-label">Answer:</span> When 'apply' is running, Terraform locks the state file. If another person tries to deploy, they will get a 'locked' error to prevent corruption.</div></div>
+        <div class="question-card"><span class="q-text">9. Difference between VM and Docker?</span><div class="options"><div class="opt" onclick="check(this,true)">VM has its own OS; Docker shares the host OS.</div><div class="opt" onclick="check(this,false)">Docker is heavier than VM.</div><div class="opt" onclick="check(this,false)">VMs run faster.</div></div><div class="simple-ans" style="display:block;"><span class="ans-label">Answer:</span> Docker containers are lightweight and start in seconds because they don't boot an entire OS. VMs use a hypervisor and are more isolated but heavy.</div></div>
+        <div class="question-card"><span class="q-text">10. What is a Pod in Kubernetes?</span><div class="options"><div class="opt" onclick="check(this,true)">The smallest deployable unit containing one or more containers.</div><div class="opt" onclick="check(this,false)">A group of physical servers.</div><div class="opt" onclick="check(this,false)">A database table.</div></div><div class="simple-ans" style="display:block;"><span class="ans-label">Answer:</span> Containers run inside Pods. Kubernetes manages Pods, providing them with IPs and ensuring the desired number of instances are always running.</div></div>
+        <div class="question-card"><span class="q-text">11. What is Hub and Spoke networking?</span><div class="options"><div class="opt" onclick="check(this,true)">A centralized Hub VNet for shared services and Spoke VNets for workloads.</div><div class="opt" onclick="check(this,false)">A way to connect VMs via USB.</div><div class="opt" onclick="check(this,false)">A star topology in a local office.</div></div><div class="simple-ans" style="display:block;"><span class="ans-label">Answer:</span> Common in Enterprises. Shared resources (Firewall, VPN) sit in the Hub. Application VNets (Spokes) connect to the Hub via VNet Peering.</div></div>
+        <div class="question-card"><span class="q-text">12. Explain Blue-Green Deployment.</span><div class="options"><div class="opt" onclick="check(this,true)">Using two identical environments to switch traffic between versions.</div><div class="opt" onclick="check(this,false)">Testing code in different colors.</div><div class="opt" onclick="check(this,false)">A type of security monitoring.</div></div><div class="simple-ans" style="display:block;"><span class="ans-label">Answer:</span> Blue is current live, Green is new version. Once Green is tested, the Load Balancer switches 100% traffic to Green. This allows zero-downtime releases.</div></div>
+        <div class="question-card"><span class="q-text">13. What is CI/CD?</span><div class="options"><div class="opt" onclick="check(this,true)">Continuous Integration and Continuous Deployment/Delivery.</div><div class="opt" onclick="check(this,false)">Cloud Integration and Cloud Design.</div><div class="opt" onclick="check(this,false)">Coding and Designing.</div></div><div class="simple-ans" style="display:block;"><span class="ans-label">Answer:</span> It automates building, testing, and deploying. CI merges code frequently; CD delivers that code to production automatically or with approval.</div></div>
+        <div class="question-card"><span class="q-text">14. What is the role of an Agent in Azure DevOps?</span><div class="options"><div class="opt" onclick="check(this,true)">The machine that runs the tasks/commands in your pipeline.</div><div class="opt" onclick="check(this,false)">The person who writes the YAML file.</div><div class="opt" onclick="check(this,false)">The cloud provider support.</div></div><div class="simple-ans" style="display:block;"><span class="ans-label">Answer:</span> Agents download the code, run scripts, and deploy artifacts. You can use Microsoft-hosted or Self-hosted agents on your own VMs.</div></div>
+        <div class="question-card"><span class="q-text">15. What is RBAC?</span><div class="options"><div class="opt" onclick="check(this,true)">Role-Based Access Control to manage permissions.</div><div class="opt" onclick="check(this,false)">Remote Backup and Archive Control.</div><div class="opt" onclick="check(this,false)">A networking protocol.</div></div><div class="simple-ans" style="display:block;"><span class="ans-label">Answer:</span> Instead of giving permissions to users individually, you assign roles (Owner, Reader, Contributor) to manage who can do what.</div></div>
+        <div class="question-card"><span class="q-text">16. What is CIDR?</span><div class="options"><div class="opt" onclick="check(this,true)">A method to allocate IP addresses and IP routing.</div><div class="opt" onclick="check(this,false)">A cloud storage type.</div><div class="opt" onclick="check(this,false)">A coding language.</div></div><div class="simple-ans" style="display:block;"><span class="ans-label">Answer:</span> Classless Inter-Domain Routing defines network sizes (e.g., /24). It determines how many IPs are available in your VNet or Subnet.</div></div>
+        <div class="question-card"><span class="q-text">17. Difference between Hot, Cool, and Archive tiers?</span><div class="options"><div class="opt" onclick="check(this,true)">Based on access frequency and cost.</div><div class="opt" onclick="check(this,false)">Based on storage speed.</div><div class="opt" onclick="check(this,false)">Based on data size.</div></div><div class="simple-ans" style="display:block;"><span class="ans-label">Answer:</span> Hot is for daily data. Cool is for data accessed once a month. Archive is for data stored for 180+ days with lowest cost but highest access time.</div></div>
+        <div class="question-card"><span class="q-text">18. What is a 'Module' in Terraform?</span><div class="options"><div class="opt" onclick="check(this,true)">A container for multiple resources used together (reusable code).</div><div class="opt" onclick="check(this,false)">A single .tf file.</div><div class="opt" onclick="check(this,false)">A plugin for Azure.</div></div><div class="simple-ans" style="display:block;"><span class="ans-label">Answer:</span> Modules help in writing DRY (Don't Repeat Yourself) code. You can use one module to create VNets in Dev, QA, and Prod environments.</div></div>
+        <div class="question-card"><span class="q-text">19. What is 'Managed Identity'?</span><div class="options"><div class="opt" onclick="check(this,true)">An identity for Azure resources to authenticate without secrets in code.</div><div class="opt" onclick="check(this,false)">A user login for the Portal.</div><div class="opt" onclick="check(this,false)">A type of SSH key.</div></div><div class="simple-ans" style="display:block;"><span class="ans-label">Answer:</span> It eliminates the need for managing credentials. A VM can use its Managed Identity to fetch a secret from Key Vault securely.</div></div>
+        <div class="question-card"><span class="q-text">20. What is 'Soft Delete' in Storage?</span><div class="options"><div class="opt" onclick="check(this,true)">Allows recovery of deleted blobs within a retention period.</div><div class="opt" onclick="check(this,false)">Deleting data without confirmation.</div><div class="opt" onclick="check(this,false)">Moving data to the bin.</div></div><div class="simple-ans" style="display:block;"><span class="ans-label">Answer:</span> It's a safety net. If someone accidentally deletes a blob, you can restore it within the set number of days (e.g., 7 days).</div></div>
+    </div>
+
+    <div id="linux" class="section-content">
+        <div class="question-card"><span class="q-text">1. Command to see current shell?</span><div class="options"><div class="opt" onclick="check(this,true)">echo $SHELL</div><div class="opt" onclick="check(this,false)">which shell</div><div class="opt" onclick="check(this,false)">ps shell</div></div></div>
+        <div class="question-card"><span class="q-text">2. How to check disk usage of a folder?</span><div class="options"><div class="opt" onclick="check(this,true)">du -sh</div><div class="opt" onclick="check(this,false)">df -h</div><div class="opt" onclick="check(this,false)">ls -lh</div></div></div>
+        <div class="question-card"><span class="q-text">3. Command to find a string?</span><div class="options"><div class="opt" onclick="check(this,true)">grep</div><div class="opt" onclick="check(this,false)">find</div><div class="opt" onclick="check(this,false)">cat</div></div></div>
+        <div class="question-card"><span class="q-text">4. Check running processes?</span><div class="options"><div class="opt" onclick="check(this,true)">top or ps -ef</div><div class="opt" onclick="check(this,false)">ls</div><div class="opt" onclick="check(this,false)">netstat</div></div></div>
+        <div class="question-card"><span class="q-text">5. Change file permissions?</span><div class="options"><div class="opt" onclick="check(this,true)">chmod</div><div class="opt" onclick="check(this,false)">chown</div><div class="opt" onclick="check(this,false)">chgrp</div></div></div>
+        <div class="question-card"><span class="q-text">6. Change file owner?</span><div class="options"><div class="opt" onclick="check(this,true)">chown</div><div class="opt" onclick="check(this,false)">chmod</div><div class="opt" onclick="check(this,false)">ls</div></div></div>
+        <div class="question-card"><span class="q-text">7. Tail log file in real-time?</span><div class="options"><div class="opt" onclick="check(this,true)">tail -f</div><div class="opt" onclick="check(this,false)">cat</div><div class="opt" onclick="check(this,false)">less</div></div></div>
+        <div class="question-card"><span class="q-text">8. Create a directory?</span><div class="options"><div class="opt" onclick="check(this,true)">mkdir</div><div class="opt" onclick="check(this,false)">touch</div><div class="opt" onclick="check(this,false)">rmdir</div></div></div>
+        <div class="question-card"><span class="q-text">9. Check system uptime?</span><div class="options"><div class="opt" onclick="check(this,true)">uptime</div><div class="opt" onclick="check(this,false)">date</div><div class="opt" onclick="check(this,false)">time</div></div></div>
+        <div class="question-card"><span class="q-text">10. Port for SSH?</span><div class="options"><div class="opt" onclick="check(this,true)">22</div><div class="opt" onclick="check(this,false)">80</div><div class="opt" onclick="check(this,false)">443</div></div></div>
+        <div class="question-card"><span class="q-text">11. Root directory symbol?</span><div class="options"><div class="opt" onclick="check(this,true)">/</div><div class="opt" onclick="check(this,false)">~</div><div class="opt" onclick="check(this,false)">.</div></div></div>
+        <div class="question-card"><span class="q-text">12. Home directory symbol?</span><div class="options"><div class="opt" onclick="check(this,true)">~</div><div class="opt" onclick="check(this,false)">/</div><div class="opt" onclick="check(this,false)">..</div></div></div>
+        <div class="question-card"><span class="q-text">13. Kill a process by ID?</span><div class="options"><div class="opt" onclick="check(this,true)">kill -9</div><div class="opt" onclick="check(this,false)">stop</div><div class="opt" onclick="check(this,false)">end</div></div></div>
+        <div class="question-card"><span class="q-text">14. Edit a file?</span><div class="options"><div class="opt" onclick="check(this,true)">vi or nano</div><div class="opt" onclick="check(this,false)">cat</div><div class="opt" onclick="check(this,false)">less</div></div></div>
+        <div class="question-card"><span class="q-text">15. Memory usage in MB?</span><div class="options"><div class="opt" onclick="check(this,true)">free -m</div><div class="opt" onclick="check(this,false)">df -h</div><div class="opt" onclick="check(this,false)">ps</div></div></div>
+        <div class="question-card"><span class="q-text">16. Search for files?</span><div class="options"><div class="opt" onclick="check(this,true)">find</div><div class="opt" onclick="check(this,false)">grep</div><div class="opt" onclick="check(this,false)">look</div></div></div>
+        <div class="question-card"><span class="q-text">17. Current working directory?</span><div class="options"><div class="opt" onclick="check(this,true)">pwd</div><div class="opt" onclick="check(this,false)">cd</div><div class="opt" onclick="check(this,false)">ls</div></div></div>
+        <div class="question-card"><span class="q-text">18. Reboot command?</span><div class="options"><div class="opt" onclick="check(this,true)">reboot or sudo reboot</div><div class="opt" onclick="check(this,false)">exit</div><div class="opt" onclick="check(this,false)">stop</div></div></div>
+        <div class="question-card"><span class="q-text">19. View file content?</span><div class="options"><div class="opt" onclick="check(this,true)">cat</div><div class="opt" onclick="check(this,false)">ls</div><div class="opt" onclick="check(this,false)">dir</div></div></div>
+        <div class="question-card"><span class="q-text">20. See last 10 lines?</span><div class="options"><div class="opt" onclick="check(this,true)">tail</div><div class="opt" onclick="check(this,false)">head</div><div class="opt" onclick="check(this,false)">cat</div></div></div>
+    </div>
+
+    <div id="landing" class="section-content">
+        <div class="question-card"><span class="q-text">1. What is CAF?</span><div class="options"><div class="opt" onclick="check(this,true)">Cloud Adoption Framework</div><div class="opt" onclick="check(this,false)">Cloud Authentication File</div><div class="opt" onclick="check(this,false)">Center for Azure Files</div></div></div>
+        <div class="question-card"><span class="q-text">2. Management Group is for?</span><div class="options"><div class="opt" onclick="check(this,true)">Governance across multiple subscriptions</div><div class="opt" onclick="check(this,false)">Storage backup</div><div class="opt" onclick="check(this,false)">VM performance</div></div></div>
+        <div class="question-card"><span class="q-text">3. Hub and Spoke Hub contains?</span><div class="options"><div class="opt" onclick="check(this,true)">Shared services like Firewall/VPN</div><div class="opt" onclick="check(this,false)">User databases</div><div class="opt" onclick="check(this,false)">Website frontend</div></div></div>
+        <div class="question-card"><span class="q-text">4. Purpose of Azure Policy?</span><div class="options"><div class="opt" onclick="check(this,true)">Enforce compliance rules</div><div class="opt" onclick="check(this,false)">Delete resources</div><div class="opt" onclick="check(this,false)">Naming VMs</div></div></div>
+        <div class="question-card"><span class="q-text">5. Role of 'Connectivity' Subscription?</span><div class="options"><div class="opt" onclick="check(this,true)">Networking Hub</div><div class="opt" onclick="check(this,false)">Billing center</div><div class="opt" onclick="check(this,false)">Identity store</div></div></div>
+        <div class="question-card"><span class="q-text">6. Why use Landing Zones?</span><div class="options"><div class="opt" onclick="check(this,true)">Scalability and security for enterprises</div><div class="opt" onclick="check(this,false)">Free trials</div><div class="opt" onclick="check(this,false)">Single VM hosting</div></div></div>
+        <div class="question-card"><span class="q-text">7. WAF stands for?</span><div class="options"><div class="opt" onclick="check(this,true)">Well-Architected Framework</div><div class="opt" onclick="check(this,false)">Web Application Firewall</div><div class="opt" onclick="check(this,false)">Windows Azure Files</div></div></div>
+        <div class="question-card"><span class="q-text">8. Governance pillar includes?</span><div class="options"><div class="opt" onclick="check(this,true)">Cost management and security</div><div class="opt" onclick="check(this,false)">CPU speed</div><div class="opt" onclick="check(this,false)">Excel reporting</div></div></div>
+        <div class="question-card"><span class="q-text">9. Enterprise Enrollment is?</span><div class="options"><div class="opt" onclick="check(this,true)">Commercial agreement with Microsoft</div><div class="opt" onclick="check(this,false)">User login</div><div class="opt" onclick="check(this,false)">Trial account</div></div></div>
+        <div class="question-card"><span class="q-text">10. Subscriptions are containers for?</span><div class="options"><div class="opt" onclick="check(this,true)">Resources and Billing</div><div class="opt" onclick="check(this,false)">Physical servers</div><div class="opt" onclick="check(this,false)">User passwords</div></div></div>
+        <div class="question-card"><span class="q-text">11. Resource Groups are?</span><div class="options"><div class="opt" onclick="check(this,true)">Logical containers for related resources</div><div class="opt" onclick="check(this,false)">Data centers</div><div class="opt" onclick="check(this,false)">VNet segments</div></div></div>
+        <div class="question-card"><span class="q-text">12. Naming convention benefit?</span><div class="options"><div class="opt" onclick="check(this,true)">Ease of management and tracking</div><div class="opt" onclick="check(this,false)">Faster VM boot</div><div class="opt" onclick="check(this,false)">Less billing</div></div></div>
+        <div class="question-card"><span class="q-text">13. Azure Blueprints help in?</span><div class="options"><div class="opt" onclick="check(this,true)">Repeatable resource deployment</div><div class="opt" onclick="check(this,false)">Painting icons</div><div class="opt" onclick="check(this,false)">Drawing maps</div></div></div>
+        <div class="question-card"><span class="q-text">14. Tagging is used for?</span><div class="options"><div class="opt" onclick="check(this,true)">Cost tracking and metadata</div><div class="opt" onclick="check(this,false)">Deleting resources</div><div class="opt" onclick="check(this,false)">Encryption</div></div></div>
+        <div class="question-card"><span class="q-text">15. Shared Identity uses?</span><div class="options"><div class="opt" onclick="check(this,true)">Azure AD (Entra ID)</div><div class="opt" onclick="check(this,false)">Local accounts</div><div class="opt" onclick="check(this,false)">Facebook login</div></div></div>
+        <div class="question-card"><span class="q-text">16. RBAC Scope?</span><div class="options"><div class="opt" onclick="check(this,true)">Mgmt Group, Subscription, RG, or Resource</div><div class="opt" onclick="check(this,false)">Only VM</div><div class="opt" onclick="check(this,false)">Only VNet</div></div></div>
+        <div class="question-card"><span class="q-text">17. CAF Adoption phase?</span><div class="options"><div class="opt" onclick="check(this,true)">Migrating and Modernizing workloads</div><div class="opt" onclick="check(this,false)">Buying license</div><div class="opt" onclick="check(this,false)">Deleting apps</div></div></div>
+        <div class="question-card"><span class="q-text">18. Centralized Logging?</span><div class="options"><div class="opt" onclick="check(this,true)">Log Analytics Workspace</div><div class="opt" onclick="check(this,false)">Notepad</div><div class="opt" onclick="check(this,false)">Excel</div></div></div>
+        <div class="question-card"><span class="q-text">19. Sandbox subscription?</span><div class="options"><div class="opt" onclick="check(this,true)">Environment for testing/learning</div><div class="opt" onclick="check(this,false)">Production servers</div><div class="opt" onclick="check(this,false)">Backup store</div></div></div>
+        <div class="question-card"><span class="q-text">20. Service Health?</span><div class="options"><div class="opt" onclick="check(this,true)">Tracking Azure platform status</div><div class="opt" onclick="check(this,false)">VM RAM health</div><div class="opt" onclick="check(this,false)">User health</div></div></div>
+    </div>
+
+    <div id="azure" class="section-content">
+        <div class="question-card"><span class="q-text">1. Availability Set vs Zone?</span><div class="options"><div class="opt" onclick="check(this,true)">Set: within DC; Zone: across DCs</div><div class="opt" onclick="check(this,false)">Set is for storage</div><div class="opt" onclick="check(this,false)">Zone is free</div></div></div>
+        <div class="question-card"><span class="q-text">2. Horizontal Scaling?</span><div class="options"><div class="opt" onclick="check(this,true)">Adding more VMs</div><div class="opt" onclick="check(this,false)">Increasing RAM</div><div class="opt" onclick="check(this,false)">Replacing disks</div></div></div>
+        <div class="question-card"><span class="q-text">3. VM Scale Set (VMSS)?</span><div class="options"><div class="opt" onclick="check(this,true)">Identical VMs auto-scaling</div><div class="opt" onclick="check(this,false)">Single VM backup</div><div class="opt" onclick="check(this,false)">Naming tool</div></div></div>
+        <div class="question-card"><span class="q-text">4. Fault Domain?</span><div class="options"><div class="opt" onclick="check(this,true)">Common power/rack grouping</div><div class="opt" onclick="check(this,false)">Software bug</div><div class="opt" onclick="check(this,false)">Cloud region</div></div></div>
+        <div class="question-card"><span class="q-text">5. Update Domain?</span><div class="options"><div class="opt" onclick="check(this,true)">Uptime during maintenance</div><div class="opt" onclick="check(this,false)">Planned outage</div><div class="opt" onclick="check(this,false)">Security patch</div></div></div>
+        <div class="question-card"><span class="q-text">6. Resize VM?</span><div class="options"><div class="opt" onclick="check(this,true)">Requires Stop/Restart</div><div class="opt" onclick="check(this,false)">Automatic</div><div class="opt" onclick="check(this,false)">Deletes disk</div></div></div>
+        <div class="question-card"><span class="q-text">7. Managed Disk?</span><div class="options"><div class="opt" onclick="check(this,true)">Azure-managed VHD</div><div class="opt" onclick="check(this,false)">Physical CD</div><div class="opt" onclick="check(this,false)">USB drive</div></div></div>
+        <div class="question-card"><span class="q-text">8. Standard D2s max data disks?</span><div class="options"><div class="opt" onclick="check(this,true)">4</div><div class="opt" onclick="check(this,false)">16</div><div class="opt" onclick="check(this,false)">64</div></div></div>
+        <div class="question-card"><span class="q-text">9. Spot Instance?</span><div class="options"><div class="opt" onclick="check(this,true)">Unused capacity discount</div><div class="opt" onclick="check(this,false)">Premium VM</div><div class="opt" onclick="check(this,false)">Trial VM</div></div></div>
+        <div class="question-card"><span class="q-text">10. Boot Diagnostics?</span><div class="options"><div class="opt" onclick="check(this,true)">Screenshots for startup troubleshooting</div><div class="opt" onclick="check(this,false)">RAM speed</div><div class="opt" onclick="check(this,false)">User logs</div></div></div>
+        <div class="question-card"><span class="q-text">11. VM Extensions?</span><div class="options"><div class="opt" onclick="check(this,true)">Post-deployment configuration scripts</div><div class="opt" onclick="check(this,false)">Resizing tool</div><div class="opt" onclick="check(this,false)">Backup files</div></div></div>
+        <div class="question-card"><span class="q-text">12. Azure Bastion?</span><div class="options"><div class="opt" onclick="check(this,true)">Secure RDP/SSH without Public IP</div><div class="opt" onclick="check(this,false)">Load balancer</div><div class="opt" onclick="check(this,false)">Firewall</div></div></div>
+        <div class="question-card"><span class="q-text">13. Vertical Scaling?</span><div class="options"><div class="opt" onclick="check(this,true)">Increasing CPU/RAM of one VM</div><div class="opt" onclick="check(this,false)">Adding 5 VMs</div><div class="opt" onclick="check(this,false)">Deleting VM</div></div></div>
+        <div class="question-card"><span class="q-text">14. Proximity Placement Group?</span><div class="options"><div class="opt" onclick="check(this,true)">Low latency physical closeness</div><div class="opt" onclick="check(this,false)">Distance apart</div><div class="opt" onclick="check(this,false)">Cost saving</div></div></div>
+        <div class="question-card"><span class="q-text">15. Ephemeral Disk?</span><div class="options"><div class="opt" onclick="check(this,true)">Temporary OS disk storage</div><div class="opt" onclick="check(this,false)">Premium SSD</div><div class="opt" onclick="check(this,false)">Persistent drive</div></div></div>
+        <div class="question-card"><span class="q-text">16. Accelerated Networking?</span><div class="options"><div class="opt" onclick="check(this,true)">FPGA for higher throughput</div><div class="opt" onclick="check(this,false)">WIFI booster</div><div class="opt" onclick="check(this,false)">Standard NIC</div></div></div>
+        <div class="question-card"><span class="q-text">17. Dedicated Host?</span><div class="options"><div class="opt" onclick="check(this,true)">Physical server reserved for you</div><div class="opt" onclick="check(this,false)">Shared VM</div><div class="opt" onclick="check(this,false)">Virtual folder</div></div></div>
+        <div class="question-card"><span class="q-text">18. Cloud-init?</span><div class="options"><div class="opt" onclick="check(this,true)">Linux VM startup config</div><div class="opt" onclick="check(this,false)">Windows login</div><div class="opt" onclick="check(this,false)">Disk backup</div></div></div>
+        <div class="question-card"><span class="q-text">19. Stop (Deallocated)?</span><div class="options"><div class="opt" onclick="check(this,true)">Compute charges stop</div><div class="opt" onclick="check(this,false)">Charging continues</div><div class="opt" onclick="check(this,false)">VM deleted</div></div></div>
+        <div class="question-card"><span class="q-text">20. SKU represents?</span><div class="options"><div class="opt" onclick="check(this,true)">Service level, performance, and price</div><div class="opt" onclick="check(this,false)">Resource name</div><div class="opt" onclick="check(this,false)">Location only</div></div></div>
+    </div>
+
+    <div id="networking" class="section-content">
+        <div class="question-card"><span class="q-text">1. CIDR /24 IPs?</span><div class="options"><div class="opt" onclick="check(this,true)">256</div><div class="opt" onclick="check(this,false)">65K</div><div class="opt" onclick="check(this,false)">16</div></div></div>
+        <div class="question-card"><span class="q-text">2. Reserved IPs?</span><div class="options"><div class="opt" onclick="check(this,true)">5</div><div class="opt" onclick="check(this,false)">2</div><div class="opt" onclick="check(this,false)">0</div></div></div>
+        <div class="question-card"><span class="q-text">3. NSG Priority?</span><div class="options"><div class="opt" onclick="check(this,true)">Lower number wins</div><div class="opt" onclick="check(this,false)">Higher wins</div><div class="opt" onclick="check(this,false)">Alpha order</div></div></div>
+        <div class="question-card"><span class="q-text">4. Application Gateway Layer?</span><div class="options"><div class="opt" onclick="check(this,true)">Layer 7</div><div class="opt" onclick="check(this,false)">Layer 4</div><div class="opt" onclick="check(this,false)">Layer 2</div></div></div>
+        <div class="question-card"><span class="q-text">5. VNet Peering?</span><div class="options"><div class="opt" onclick="check(this,true)">Direct backbone connection</div><div class="opt" onclick="check(this,false)">Internet tunnel</div><div class="opt" onclick="check(this,false)">USB wire</div></div></div>
+        <div class="question-card"><span class="q-text">6. ExpressRoute?</span><div class="options"><div class="opt" onclick="check(this,true)">Private dedicated circuit</div><div class="opt" onclick="check(this,false)">Standard VPN</div><div class="opt" onclick="check(this,false)">WIFI bridge</div></div></div>
+        <div class="question-card"><span class="q-text">7. Hub VNet purpose?</span><div class="options"><div class="opt" onclick="check(this,true)">Shared services hub</div><div class="opt" onclick="check(this,false)">Data storage</div><div class="opt" onclick="check(this,false)">Local desktops</div></div></div>
+        <div class="question-card"><span class="q-text">8. NAT Gateway?</span><div class="options"><div class="opt" onclick="check(this,true)">Outbound internet access</div><div class="opt" onclick="check(this,false)">Inbound RDP</div><div class="opt" onclick="check(this,false)">DNS hosting</div></div></div>
+        <div class="question-card"><span class="q-text">9. Azure DNS?</span><div class="options"><div class="opt" onclick="check(this,true)">Custom domain hosting</div><div class="opt" onclick="check(this,false)">Search engine</div><div class="opt" onclick="check(this,false)">Fiber cable</div></div></div>
+        <div class="question-card"><span class="q-text">10. NSG works at?</span><div class="options"><div class="opt" onclick="check(this,true)">Subnet or NIC level</div><div class="opt" onclick="check(this,false)">Only VM</div><div class="opt" onclick="check(this,false)">Browser only</div></div></div>
+        <div class="question-card"><span class="q-text">11. Load Balancer Layer?</span><div class="options"><div class="opt" onclick="check(this,true)">Layer 4</div><div class="opt" onclick="check(this,false)">Layer 7</div><div class="opt" onclick="check(this,false)">Layer 1</div></div></div>
+        <div class="question-card"><span class="q-text">12. Traffic Manager?</span><div class="options"><div class="opt" onclick="check(this,true)">DNS Level routing</div><div class="opt" onclick="check(this,false)">IP Level</div><div class="opt" onclick="check(this,false)">TCP Level</div></div></div>
+        <div class="question-card"><span class="q-text">13. Private Link?</span><div class="options"><div class="opt" onclick="check(this,true)">Access via private IP</div><div class="opt" onclick="check(this,false)">Internet gateway</div><div class="opt" onclick="check(this,false)">Public host</div></div></div>
+        <div class="question-card"><span class="q-text">14. S2S VPN?</span><div class="options"><div class="opt" onclick="check(this,true)">Site to Site IPsec</div><div class="opt" onclick="check(this,false)">Point to Site</div><div class="opt" onclick="check(this,false)">Local only</div></div></div>
+        <div class="question-card"><span class="q-text">15. Front Door?</span><div class="options"><div class="opt" onclick="check(this,true)">Global web acceleration</div><div class="opt" onclick="check(this,false)">Local VNet</div><div class="opt" onclick="check(this,false)">Disk backup</div></div></div>
+        <div class="question-card"><span class="q-text">16. Service Tag?</span><div class="options"><div class="opt" onclick="check(this,true)">Predefined Azure IP groups</div><div class="opt" onclick="check(this,false)">Username</div><div class="opt" onclick="check(this,false)">Label</div></div></div>
+        <div class="question-card"><span class="q-text">17. Default Route?</span><div class="options"><div class="opt" onclick="check(this,true)">0.0.0.0/0 via Internet</div><div class="opt" onclick="check(this,false)">10.0.0.0/8 Local</div><div class="opt" onclick="check(this,false)">None</div></div></div>
+        <div class="question-card"><span class="q-text">18. CIDR /16 IPs?</span><div class="options"><div class="opt" onclick="check(this,true)">65536</div><div class="opt" onclick="check(this,false)">256</div><div class="opt" onclick="check(this,false)">1024</div></div></div>
+        <div class="question-card"><span class="q-text">19. P2S VPN?</span><div class="options"><div class="opt" onclick="check(this,true)">PC to Azure connection</div><div class="opt" onclick="check(this,false)">VNet to VNet</div><div class="opt" onclick="check(this,false)">Disk sync</div></div></div>
+        <div class="question-card"><span class="q-text">20. Azure Firewall?</span><div class="options"><div class="opt" onclick="check(this,true)">Layer 3-7 security</div><div class="opt" onclick="check(this,false)">Basic port block</div><div class="opt" onclick="check(this,false)">WIFI lock</div></div></div>
+    </div>
+
+    <div id="storage" class="section-content">
+        <div class="question-card"><span class="q-text">1. Best tier for yearly data?</span><div class="options"><div class="opt" onclick="check(this,true)">Archive</div><div class="opt" onclick="check(this,false)">Hot</div><div class="opt" onclick="check(this,false)">Cool</div></div></div>
+        <div class="question-card"><span class="q-text">2. LRS replicas?</span><div class="options"><div class="opt" onclick="check(this,true)">3 in 1 DC</div><div class="opt" onclick="check(this,false)">3 in 3 regions</div><div class="opt" onclick="check(this,false)">6 copies</div></div></div>
+        <div class="question-card"><span class="q-text">3. SAS Token?</span><div class="options"><div class="opt" onclick="check(this,true)">Delegated timed access</div><div class="opt" onclick="check(this,false)">Admin key</div><div class="opt" onclick="check(this,false)">Protocol</div></div></div>
+        <div class="question-card"><span class="q-text">4. Service for SMB shares?</span><div class="options"><div class="opt" onclick="check(this,true)">Azure Files</div><div class="opt" onclick="check(this,false)">Blob Storage</div><div class="opt" onclick="check(this,false)">Disks</div></div></div>
+        <div class="question-card"><span class="q-text">5. Max Storage size?</span><div class="options"><div class="opt" onclick="check(this,true)">5 PB</div><div class="opt" onclick="check(this,false)">500 TB</div><div class="opt" onclick="check(this,false)">100 TB</div></div></div>
+        <div class="question-card"><span class="q-text">6. Replicating 100 miles away?</span><div class="options"><div class="opt" onclick="check(this,true)">GRS</div><div class="opt" onclick="check(this,false)">LRS</div><div class="opt" onclick="check(this,false)">ZRS</div></div></div>
+        <div class="question-card"><span class="q-text">7. Block vs Page Blob?</span><div class="options"><div class="opt" onclick="check(this,true)">Block: files; Page: VHDs</div><div class="opt" onclick="check(this,false)">Same thing</div><div class="opt" onclick="check(this,false)">Logs</div></div></div>
+        <div class="question-card"><span class="q-text">8. Rehydration?</span><div class="options"><div class="opt" onclick="check(this,true)">Archive to Hot/Cool</div><div class="opt" onclick="check(this,false)">Deleting</div><div class="opt" onclick="check(this,false)">Washing</div></div></div>
+        <div class="question-card"><span class="q-text">9. Encryption?</span><div class="options"><div class="opt" onclick="check(this,true)">Default always on</div><div class="opt" onclick="check(this,false)">Optional</div><div class="opt" onclick="check(this,false)">User paid</div></div></div>
+        <div class="question-card"><span class="q-text">10. Soft Delete?</span><div class="options"><div class="opt" onclick="check(this,true)">Restore accidentally deleted blobs</div><div class="opt" onclick="check(this,false)">Deleting without confirmation</div><div class="opt" onclick="check(this,false)">Moving to bin</div></div></div>
+        <div class="question-card"><span class="q-text">11. RA-GRS?</span><div class="options"><div class="opt" onclick="check(this,true)">Read access to secondary</div><div class="opt" onclick="check(this,false)">Write access</div><div class="opt" onclick="check(this,false)">Speed test</div></div></div>
+        <div class="question-card"><span class="q-text">12. Immutable Storage?</span><div class="options"><div class="opt" onclick="check(this,true)">WORM policy (no delete/mod)</div><div class="opt" onclick="check(this,false)">Fast changes</div><div class="opt" onclick="check(this,false)">Temporary</div></div></div>
+        <div class="question-card"><span class="q-text">13. Lifecycle Mgmt?</span><div class="options"><div class="opt" onclick="check(this,true)">Auto tier movement</div><div class="opt" onclick="check(this,false)">Deleting accounts</div><div class="opt" onclick="check(this,false)">Naming</div></div></div>
+        <div class="question-card"><span class="q-text">14. Managed Disk?</span><div class="options"><div class="opt" onclick="check(this,true)">VHD for VM disks</div><div class="opt" onclick="check(this,false)">Local disk</div><div class="opt" onclick="check(this,false)">Physical card</div></div></div>
+        <div class="question-card"><span class="q-text">15. Storage Explorer?</span><div class="options"><div class="opt" onclick="check(this,true)">Manage data visually</div><div class="opt" onclick="check(this,false)">Build apps</div><div class="opt" onclick="check(this,false)">Search internet</div></div></div>
+        <div class="question-card"><span class="q-text">16. Type for Logs?</span><div class="options"><div class="opt" onclick="check(this,true)">Append Blob</div><div class="opt" onclick="check(this,false)">Block Blob</div><div class="opt" onclick="check(this,false)">Page Blob</div></div></div>
+        <div class="question-card"><span class="q-text">17. ZRS replicas?</span><div class="options"><div class="opt" onclick="check(this,true)">Across 3 availability zones</div><div class="opt" onclick="check(this,false)">In 1 DC</div><div class="opt" onclick="check(this,false)">Worldwide</div></div></div>
+        <div class="question-card"><span class="q-text">18. Naming rules?</span><div class="options"><div class="opt" onclick="check(this,true)">Globally unique, lowercase, numbers</div><div class="opt" onclick="check(this,false)">Any name</div><div class="opt" onclick="check(this,false)">Uppercase only</div></div></div>
+        <div class="question-card"><span class="q-text">19. SMB Port for Azure Files?</span><div class="options"><div class="opt" onclick="check(this,true)">445</div><div class="opt" onclick="check(this,false)">80</div><div class="opt" onclick="check(this,false)">22</div></div></div>
+        <div class="question-card"><span class="q-text">20. Data Lake Gen2?</span><div class="options"><div class="opt" onclick="check(this,true)">Optimized for Big Data analytics</div><div class="opt" onclick="check(this,false)">Normal blob</div><div class="opt" onclick="check(this,false)">Email store</div></div></div>
+    </div>
+
+    <div id="terraform" class="section-content">
+        <div class="question-card"><span class="q-text">1. Count vs for_each?</span><div class="options"><div class="opt" onclick="check(this,true)">Count: index; for_each: keys</div><div class="opt" onclick="check(this,false)">Same thing</div><div class="opt" onclick="check(this,false)">Count is faster</div></div></div>
+        <div class="question-card"><span class="q-text">2. Dynamic Block?</span><div class="options"><div class="opt" onclick="check(this,true)">Generate blocks based on lists</div><div class="opt" onclick="check(this,false)">Delete blocks</div><div class="opt" onclick="check(this,false)">Scripting</div></div></div>
+        <div class="question-card"><span class="q-text">3. Remote State Locking?</span><div class="options"><div class="opt" onclick="check(this,true)">Prevents corruption during parallel runs</div><div class="opt" onclick="check(this,false)">Deletes code</div><div class="opt" onclick="check(this,false)">Locks billing</div></div></div>
+        <div class="question-card"><span class="q-text">4. HCL full form?</span><div class="options"><div class="opt" onclick="check(this,true)">HashiCorp Configuration Language</div><div class="opt" onclick="check(this,false)">High Cloud Level</div><div class="opt" onclick="check(this,false)">Hard Code Link</div></div></div>
+        <div class="question-card"><span class="q-text">5. Terraform Init?</span><div class="options"><div class="opt" onclick="check(this,true)">Downloads providers and prepares environment</div><div class="opt" onclick="check(this,false)">Creates resources</div><div class="opt" onclick="check(this,false)">Deletes state</div></div></div>
+        <div class="question-card"><span class="q-text">6. Terraform Plan?</span><div class="options"><div class="opt" onclick="check(this,true)">Shows execution plan preview</div><div class="opt" onclick="check(this,false)">Builds servers</div><div class="opt" onclick="check(this,false)">Checks RAM</div></div></div>
+        <div class="question-card"><span class="q-text">7. Terraform Apply?</span><div class="options"><div class="opt" onclick="check(this,true)">Applies changes to infrastructure</div><div class="opt" onclick="check(this,false)">Writes code</div><div class="opt" onclick="check(this,false)">Only tests</div></div></div>
+        <div class="question-card"><span class="q-text">8. State File?</span><div class="options"><div class="opt" onclick="check(this,true)">Maps configuration to real resources</div><div class="opt" onclick="check(this,false)">Backup of .tf files</div><div class="opt" onclick="check(this,false)">Password manager</div></div></div>
+        <div class="question-card"><span class="q-text">9. Backend Block?</span><div class="options"><div class="opt" onclick="check(this,true)">Configures where state is stored</div><div class="opt" onclick="check(this,false)">Naming resources</div><div class="opt" onclick="check(this,false)">Internet settings</div></div></div>
+        <div class="question-card"><span class="q-text">10. Provider Block?</span><div class="options"><div class="opt" onclick="check(this,true)">Defines cloud plugin (Azure/AWS)</div><div class="opt" onclick="check(this,false)">Defines VM name</div><div class="opt" onclick="check(this,false)">User settings</div></div></div>
+        <div class="question-card"><span class="q-text">11. Terraform Taint?</span><div class="options"><div class="opt" onclick="check(this,true)">Forces resource recreation</div><div class="opt" onclick="check(this,false)">Validates syntax</div><div class="opt" onclick="check(this,false)">Deletes backup</div></div></div>
+        <div class="question-card"><span class="q-text">12. Terraform Modules?</span><div class="options"><div class="opt" onclick="check(this,true)">Reusable infrastructure components</div><div class="opt" onclick="check(this,false)">Single .tf files</div><div class="opt" onclick="check(this,false)">Disk segments</div></div></div>
+        <div class="question-card"><span class="q-text">13. Outputs?</span><div class="options"><div class="opt" onclick="check(this,true)">Show information after apply (IP, ID)</div><div class="opt" onclick="check(this,false)">Input variables</div><div class="opt" onclick="check(this,false)">Logs only</div></div></div>
+        <div class="question-card"><span class="q-text">14. Locals?</span><div class="options"><div class="opt" onclick="check(this,true)">Internal reusable values</div><div class="opt" onclick="check(this,false)">Public variables</div><div class="opt" onclick="check(this,false)">Hardware keys</div></div></div>
+        <div class="question-card"><span class="q-text">15. Sensitive = true?</span><div class="options"><div class="opt" onclick="check(this,true)">Hides value from console output</div><div class="opt" onclick="check(this,false)">Encrypts disk</div><div class="opt" onclick="check(this,false)">Locks portal</div></div></div>
+        <div class="question-card"><span class="q-text">16. Terraform Workspace?</span><div class="options"><div class="opt" onclick="check(this,true)">Manages multiple environments (Dev/Prod)</div><div class="opt" onclick="check(this,false)">A code editor</div><div class="opt" onclick="check(this,false)">Cloud UI</div></div></div>
+        <div class="question-card"><span class="q-text">17. Depends_on?</span><div class="options"><div class="opt" onclick="check(this,true)">Manual dependency ordering</div><div class="opt" onclick="check(this,false)">Automatic speedup</div><div class="opt" onclick="check(this,false)">Naming tool</div></div></div>
+        <div class="question-card"><span class="q-text">18. Terraform Validate?</span><div class="options"><div class="opt" onclick="check(this,true)">Checks HCL syntax only</div><div class="opt" onclick="check(this,false)">Creates VMs</div><div class="opt" onclick="check(this,false)">Deletes state</div></div></div>
+        <div class="question-card"><span class="q-text">19. Drift?</span><div class="options"><div class="opt" onclick="check(this,true)">Manual changes not in code</div><div class="opt" onclick="check(this,false)">Moving servers</div><div class="opt" onclick="check(this,false)">Data sync</div></div></div>
+        <div class="question-card"><span class="q-text">20. Terraform Graph?</span><div class="options"><div class="opt" onclick="check(this,true)">Visual representation of resources</div><div class="opt" onclick="check(this,false)">Pricing chart</div><div class="opt" onclick="check(this,false)">Billing list</div></div></div>
+        <div class="question-card">
+        <span class="q-text">21. Difference between count and for_each?</span>
+        <div class="options">
+            <div class="opt" onclick="check(this,true)">count uses indices (0,1); for_each uses unique keys from a map/set.</div>
+            <div class="opt" onclick="check(this,false)">count is faster.</div>
+            <div class="opt" onclick="check(this,false)">for_each is only for Azure.</div>
+        </div>
+        <div class="simple-ans"><span class="ans-label">Answer:</span> for_each avoids index-shifting bugs. If you delete an item in 'count', Terraform might recreate all following resources incorrectly.</div>
+    </div>
+    <div class="question-card">
+        <span class="q-text">22. Role of 'depends_on' in a Resource Group?</span>
+        <div class="options">
+            <div class="opt" onclick="check(this,true)">To define explicit manual dependencies that Terraform cannot detect.</div>
+            <div class="opt" onclick="check(this,false)">To delete resources faster.</div>
+            <div class="opt" onclick="check(this,false)">To connect to the portal.</div>
+        </div>
+        <div class="simple-ans"><span class="ans-label">Answer:</span> Use it when a resource relies on another without direct attribute reference (e.g., an RBAC role needed before a service).</div>
+    </div>
+    <div class="question-card">
+        <span class="q-text">23. What are primitive variable types in Terraform?</span>
+        <div class="options">
+            <div class="opt" onclick="check(this,true)">string, number, bool.</div>
+            <div class="opt" onclick="check(this,false)">list, map, set.</div>
+            <div class="opt" onclick="check(this,false)">object, any.</div>
+        </div>
+        <div class="simple-ans"><span class="ans-label">Answer:</span> Primitives hold a single value. String (text), Number (digits), and Bool (true/false).</div>
+    </div>
+    <div class="question-card">
+        <span class="q-text">24. What are collection variable types?</span>
+        <div class="options">
+            <div class="opt" onclick="check(this,true)">list, set, map.</div>
+            <div class="opt" onclick="check(this,false)">string, number.</div>
+            <div class="opt" onclick="check(this,false)">any.</div>
+        </div>
+        <div class="simple-ans"><span class="ans-label">Answer:</span> Collection types hold multiple values. Maps are key-value pairs (Tags), while lists are ordered sequences.</div>
+    </div>
+    <div class="question-card">
+        <span class="q-text">25. What is a Terraform Module?</span>
+        <div class="options">
+            <div class="opt" onclick="check(this,true)">A container for multiple resources to encourage code reuse (DRY).</div>
+            <div class="opt" onclick="check(this,false)">A single file.</div>
+            <div class="opt" onclick="check(this,false)">A cloud UI.</div>
+        </div>
+        <div class="simple-ans"><span class="ans-label">Answer:</span> Modules are blueprints. You write VNet code once and call it for Dev, QA, and Prod with different parameters.</div>
+    </div>
+    <div class="question-card">
+        <span class="q-text">26. Most common cause of 'Apply' failure in Azure?</span>
+        <div class="options">
+            <div class="opt" onclick="check(this,true)">Insufficient RBAC permissions or Resource name conflict.</div>
+            <div class="opt" onclick="check(this,false)">Internet speed.</div>
+            <div class="opt" onclick="check(this,false)">State file size.</div>
+        </div>
+        <div class="simple-ans"><span class="ans-label">Answer:</span> Usually, it fails if the user lacks 'Contributor' rights or if a global resource name (Storage Account) is already taken.</div>
+    </div>
+    <div class="question-card">
+        <span class="q-text">27. What is 'terraform taint'?</span>
+        <div class="options">
+            <div class="opt" onclick="check(this,true)">Forces a specific resource to be destroyed and recreated on next apply.</div>
+            <div class="opt" onclick="check(this,false)">Validates syntax.</div>
+            <div class="opt" onclick="check(this,false)">Deletes state.</div>
+        </div>
+        <div class="simple-ans"><span class="ans-label">Answer:</span> Used to manually mark a resource for replacement if it's corrupted or needs a clean start.</div>
+    </div>
+    <div class="question-card">
+        <span class="q-text">28. Use of Storage Account in Terraform?</span>
+        <div class="options">
+            <div class="opt" onclick="check(this,true)">To store the Remote State file and enable State Locking.</div>
+            <div class="opt" onclick="check(this,false)">To host the code.</div>
+            <div class="opt" onclick="check(this,false)">To backup local PC.</div>
+        </div>
+        <div class="simple-ans"><span class="ans-label">Answer:</span> Remote backend in Azure Blob ensures team collaboration and prevents multiple engineers from corrupting state via locking.</div>
+    </div>
+    </div>
+
+    <div id="cicd" class="section-content">
+        <div class="question-card"><span class="q-text">1. YAML stands for?</span><div class="options"><div class="opt" onclick="check(this,true)">Ain't Markup Language</div><div class="opt" onclick="check(this,false)">Yet Another Music Loop</div><div class="opt" onclick="check(this,false)">Yes All My Logic</div></div></div>
+        <div class="question-card"><span class="q-text">2. Runner/Agent?</span><div class="options"><div class="opt" onclick="check(this,true)">Machine executing workflow jobs</div><div class="opt" onclick="check(this,false)">The developer</div><div class="opt" onclick="check(this,false)">The cloud owner</div></div></div>
+        <div class="question-card"><span class="q-text">3. Trigger?</span><div class="options"><div class="opt" onclick="check(this,true)">Event starting the pipeline (e.g., push)</div><div class="opt" onclick="check(this,false)">A code error</div><div class="opt" onclick="check(this,false)">Manual button only</div></div></div>
+        <div class="question-card"><span class="q-text">4. Artifact?</span><div class="options"><div class="opt" onclick="check(this,true)">The deployable package produced by build</div><div class="opt" onclick="check(this,false)">A bug</div><div class="opt" onclick="check(this,false)">A comment</div></div></div>
+        <div class="question-card"><span class="q-text">5. CI means?</span><div class="options"><div class="opt" onclick="check(this,true)">Continuous Integration</div><div class="opt" onclick="check(this,false)">Cloud Integration</div><div class="opt" onclick="check(this,false)">Code Install</div></div></div>
+        <div class="question-card"><span class="q-text">6. Blue-Green Switch?</span><div class="options"><div class="opt" onclick="check(this,true)">Full traffic cut-over after testing</div><div class="opt" onclick="check(this,false)">Gradual release</div><div class="opt" onclick="check(this,false)">Deleting old site</div></div></div>
+        <div class="question-card"><span class="q-text">7. Canary Release?</span><div class="options"><div class="opt" onclick="check(this,true)">Rolling out to small group first (%)</div><div class="opt" onclick="check(this,false)">Replacing all servers</div><div class="opt" onclick="check(this,false)">Monitoring only</div></div></div>
+        <div class="question-card"><span class="q-text">8. Self-hosted Agent benefit?</span><div class="options"><div class="opt" onclick="check(this,true)">More control and specific toolsets</div><div class="opt" onclick="check(this,false)">Cheaper for everyone</div><div class="opt" onclick="check(this,false)">Always faster</div></div></div>
+        <div class="question-card"><span class="q-text">9. Environment Secrets?</span><div class="options"><div class="opt" onclick="check(this,true)">Store passwords/keys for pipelines</div><div class="opt" onclick="check(this,false)">Hide code</div><div class="opt" onclick="check(this,false)">Lock accounts</div></div></div>
+        <div class="question-card"><span class="q-text">10. Pipeline Stage?</span><div class="options"><div class="opt" onclick="check(this,true)">Logical group of jobs (e.g., Build, QA)</div><div class="opt" onclick="check(this,false)">One single command</div><div class="opt" onclick="check(this,false)">A folder</div></div></div>
+        <div class="question-card"><span class="q-text">11. Service Connection?</span><div class="options"><div class="opt" onclick="check(this,true)">Bridge between DevOps and Azure</div><div class="opt" onclick="check(this,false)">WIFI connection</div><div class="opt" onclick="check(this,false)">Database link</div></div></div>
+        <div class="question-card"><span class="q-text">12. Variables in YAML?</span><div class="options"><div class="opt" onclick="check(this,true)">Reusable values for pipeline tasks</div><div class="opt" onclick="check(this,false)">User emails</div><div class="opt" onclick="check(this,false)">Names of files</div></div></div>
+        <div class="question-card"><span class="q-text">13. Pull Request Trigger?</span><div class="options"><div class="opt" onclick="check(this,true)">Starts pipeline on PR creation</div><div class="opt" onclick="check(this,false)">Only on merge</div><div class="opt" onclick="check(this,false)">Only on delete</div></div></div>
+        <div class="question-card"><span class="q-text">14. Build vs Release?</span><div class="options"><div class="opt" onclick="check(this,true)">Build creates; Release deploys</div><div class="opt" onclick="check(this,false)">Both are same</div><div class="opt" onclick="check(this,false)">Release is first</div></div></div>
+        <div class="question-card"><span class="q-text">15. Continuous Deployment?</span><div class="options"><div class="opt" onclick="check(this,true)">Auto-deploy after successful build</div><div class="opt" onclick="check(this,false)">Manual deploy only</div><div class="opt" onclick="check(this,false)">Daily deploy</div></div></div>
+        <div class="question-card"><span class="q-text">16. Pipeline Matrix?</span><div class="options"><div class="opt" onclick="check(this,true)">Run jobs on multiple OS/versions</div><div class="opt" onclick="check(this,false)">3D design</div><div class="opt" onclick="check(this,false)">Pricing grid</div></div></div>
+        <div class="question-card"><span class="q-text">17. Pre-commit hooks?</span><div class="options"><div class="opt" onclick="check(this,true)">Checks before code leaves local PC</div><div class="opt" onclick="check(this,false)">Server checks</div><div class="opt" onclick="check(this,false)">Billing checks</div></div></div>
+        <div class="question-card"><span class="q-text">18. What is 'Trunk-based'?</span><div class="options"><div class="opt" onclick="check(this,true)">Everyone works on a single main branch</div><div class="opt" onclick="check(this,false)">Using many branches</div><div class="opt" onclick="check(this,false)">Tree structure</div></div></div>
+        <div class="question-card"><span class="q-text">19. Rollback?</span><div class="options"><div class="opt" onclick="check(this,true)">Reverting to previous stable version</div><div class="opt" onclick="check(this,false)">Deleting site</div><div class="opt" onclick="check(this,false)">Adding ram</div></div></div>
+        <div class="question-card"><span class="q-text">20. DevSecOps?</span><div class="options"><div class="opt" onclick="check(this,true)">Security in every pipeline step</div><div class="opt" onclick="check(this,false)">Security only in Prod</div><div class="opt" onclick="check(this,false)">Buying antivirus</div></div></div>
+    </div>
+
+    <div id="docker" class="section-content">
+        <div class="question-card"><span class="q-text">1. Pod?</span><div class="options"><div class="opt" onclick="check(this,true)">Smallest unit with containers</div><div class="opt" onclick="check(this,false)">Cluster</div><div class="opt" onclick="check(this,false)">VM</div></div></div>
+        <div class="question-card"><span class="q-text">2. ReplicaSet?</span><div class="options"><div class="opt" onclick="check(this,true)">Ensures specified number of pods run</div><div class="opt" onclick="check(this,false)">Cluster backup</div><div class="opt" onclick="check(this,false)">Naming pods</div></div></div>
+        <div class="question-card"><span class="q-text">3. Kubelet?</span><div class="options"><div class="opt" onclick="check(this,true)">Agent running on each node</div><div class="opt" onclick="check(this,false)">The admin user</div><div class="opt" onclick="check(this,false)">A pod</div></div></div>
+        <div class="question-card"><span class="q-text">4. Service?</span><div class="options"><div class="opt" onclick="check(this,true)">Stable IP and access to pods</div><div class="opt" onclick="check(this,false)">Task list</div><div class="opt" onclick="check(this,false)">Local app</div></div></div>
+        <div class="question-card"><span class="q-text">5. Namespace?</span><div class="options"><div class="opt" onclick="check(this,true)">Isolating resources in cluster</div><div class="opt" onclick="check(this,false)">The cluster name</div><div class="opt" onclick="check(this,false)">User ID</div></div></div>
+        <div class="question-card"><span class="q-text">6. Docker Image?</span><div class="options"><div class="opt" onclick="check(this,true)">Read-only blueprint for containers</div><div class="opt" onclick="check(this,false)">Running app</div><div class="opt" onclick="check(this,false)">Photo</div></div></div>
+        <div class="question-card"><span class="q-text">7. Docker Container?</span><div class="options"><div class="opt" onclick="check(this,true)">Runtime instance of an image</div><div class="opt" onclick="check(this,false)">Blueprint</div><div class="opt" onclick="check(this,false)">File folder</div></div></div>
+        <div class="question-card"><span class="q-text">8. Dockerfile?</span><div class="options"><div class="opt" onclick="check(this,true)">Text script to build image</div><div class="opt" onclick="check(this,false)">Log file</div><div class="opt" onclick="check(this,false)">Password file</div></div></div>
+        <div class="question-card"><span class="q-text">9. Port Mapping?</span><div class="options"><div class="opt" onclick="check(this,true)">Connecting host port to container port</div><div class="opt" onclick="check(this,false)">Naming ports</div><div class="opt" onclick="check(this,false)">WIFI setup</div></div></div>
+        <div class="question-card"><span class="q-text">10. Multi-stage build?</span><div class="options"><div class="opt" onclick="check(this,true)">Reducing image size using multiple FROMs</div><div class="opt" onclick="check(this,false)">Building 10 apps</div><div class="opt" onclick="check(this,false)">Using 10 OS</div></div></div>
+        <div class="question-card"><span class="q-text">11. Docker Hub?</span><div class="options"><div class="opt" onclick="check(this,true)">Public registry for sharing images</div><div class="opt" onclick="check(this,false)">A router</div><div class="opt" onclick="check(this,false)">Chat group</div></div></div>
+        <div class="question-card"><span class="q-text">12. Kubectl?</span><div class="options"><div class="opt" onclick="check(this,true)">CLI to control Kubernetes</div><div class="opt" onclick="check(this,false)">The master node</div><div class="opt" onclick="check(this,false)">A programming language</div></div></div>
+        <div class="question-card"><span class="q-text">13. Helm?</span><div class="options"><div class="opt" onclick="check(this,true)">Package manager for Kubernetes</div><div class="opt" onclick="check(this,false)">Network cable</div><div class="opt" onclick="check(this,false)">Control room</div></div></div>
+        <div class="question-card"><span class="q-text">14. Liveness Probe?</span><div class="options"><div class="opt" onclick="check(this,true)">Checks if container is running</div><div class="opt" onclick="check(this,false)">Checks disk size</div><div class="opt" onclick="check(this,false)">Checks billing</div></div></div>
+        <div class="question-card"><span class="q-text">15. ConfigMap?</span><div class="options"><div class="opt" onclick="check(this,true)">Store non-sensitive app config</div><div class="opt" onclick="check(this,false)">Store passwords</div><div class="opt" onclick="check(this,false)">Maps of DC</div></div></div>
+        <div class="question-card"><span class="q-text">16. Secret?</span><div class="options"><div class="opt" onclick="check(this,true)">Store passwords/tokens in K8s</div><div class="opt" onclick="check(this,false)">Hide code</div><div class="opt" onclick="check(this,false)">Lock pods</div></div></div>
+        <div class="question-card"><span class="q-text">17. Node?</span><div class="options"><div class="opt" onclick="check(this,true)">Physical or Virtual machine in cluster</div><div class="opt" onclick="check(this,false)">A pod</div><div class="opt" onclick="check(this,false)">A line in code</div></div></div>
+        <div class="question-card"><span class="q-text">18. Control Plane?</span><div class="options"><div class="opt" onclick="check(this,true)">Brains of the cluster (API, Scheduler)</div><div class="opt" onclick="check(this,false)">The worker VMs</div><div class="opt" onclick="check(this,false)">Monitoring dashboard</div></div></div>
+        <div class="question-card"><span class="q-text">19. Ingress?</span><div class="options"><div class="opt" onclick="check(this,true)">External access manager (HTTP/S)</div><div class="opt" onclick="check(this,false)">Internal connection</div><div class="opt" onclick="check(this,false)">Exit door</div></div></div>
+        <div class="question-card"><span class="q-text">20. StatefulSet?</span><div class="options"><div class="opt" onclick="check(this,true)">Managing pods with persistent IDs (Databases)</div><div class="opt" onclick="check(this,false)">Temporary pods</div><div class="opt" onclick="check(this,false)">Fast pods</div></div></div>
+    </div>
+
+<div id="monitoring" class="section-content">
+    <div class="question-card">
+        <span class="q-text">1. What is Azure Monitor?</span>
+        <div class="options">
+            <div class="opt" onclick="check(this,true)">A unified service to collect and analyze telemetry from cloud and on-prem.</div>
+            <div class="opt" onclick="check(this,false)">A tool to build VMs.</div>
+            <div class="opt" onclick="check(this,false)">A billing dashboard only.</div>
+        </div>
+        <div class="simple-ans"><span class="ans-label">Answer:</span> It tracks performance (Metrics) and health (Logs). It helps detect issues before they impact users by setting up proactive alerts and dashboards.</div>
+    </div>
+    <div class="question-card">
+        <span class="q-text">2. Purpose of Log Analytics Workspace?</span>
+        <div class="options">
+            <div class="opt" onclick="check(this,true)">Central repository to store and query log data using KQL.</div>
+            <div class="opt" onclick="check(this,false)">To store user photos.</div>
+            <div class="opt" onclick="check(this,false)">To write Python code.</div>
+        </div>
+        <div class="simple-ans"><span class="ans-label">Answer:</span> It's the "Big Data" bucket for DevOps. All resource logs go here, and we use Kusto Query Language (KQL) to find errors or check app health.</div>
+    </div>
+    <div class="question-card">
+        <span class="q-text">3. What are Azure Monitor Metric Alerts?</span>
+        <div class="options">
+            <div class="opt" onclick="check(this,true)">Automated notifications when thresholds (CPU > 90%) are hit.</div>
+            <div class="opt" onclick="check(this,false)">Manual emails from support.</div>
+            <div class="opt" onclick="check(this,false)">Billing alerts only.</div>
+        </div>
+        <div class="simple-ans"><span class="ans-label">Answer:</span> They help you stay proactive. If a server is running out of memory, the system alerts you before the site crashes.</div>
+    </div>
+    <div class="question-card">
+        <span class="q-text">4. What is Application Insights?</span>
+        <div class="options">
+            <div class="opt" onclick="check(this,true)">Application Performance Management (APM) service for web apps.</div>
+            <div class="opt" onclick="check(this,false)">A code editor.</div>
+            <div class="opt" onclick="check(this,false)">A storage tier.</div>
+        </div>
+        <div class="simple-ans"><span class="ans-label">Answer:</span> It monitors live web applications, detects performance anomalies, and helps understand what users actually do with your app.</div>
+    </div>
+    </div>
+
+<footer>Designed for Narendra Mahi | 180+ Real Interview Concepts | 2026</footer>
+
+<script>
+    function showTab(tabId) {
+        document.querySelectorAll('.section-content').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        event.currentTarget.classList.add('active');
+        window.scrollTo(0,0);
+    }
+    function check(el, isCorrect) {
+        const parent = el.parentElement.parentElement;
+        const ansBox = parent.querySelector('.simple-ans');
+        
+        if (isCorrect) {
+            el.classList.add('correct');
+            if (ansBox) ansBox.style.display = 'block';
+        } else {
+            el.classList.add('wrong');
+        }
+    }
+</script>
+</body>
+</html>
