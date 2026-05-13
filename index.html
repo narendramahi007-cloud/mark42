@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Narendra Mahi | DevOps master Encyclopedia 2026</title>
+    <link rel="icon" type="image/png" href="nainital.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --accent: #ad1457; --text: #333; --glass: rgba(255, 255, 255, 0.95); }
+        
+        body { 
+            font-family: 'Poppins', sans-serif; margin: 0; padding: 0; 
+            /* फ़िक्स: बैकग्राउंड में साफ़ और साफ़ nainital.png */
+            background-image: url('nainital.png');
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            color: var(--text);
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch; 
+        }
+
+        header { background: rgba(51, 51, 51, 0.9); padding: 20px; text-align: center; color: white; border-bottom: 4px solid var(--accent); position: sticky; top: 0; z-index: 1100; backdrop-filter: blur(5px); }
+        
+        .tabs { 
+            display: flex; flex-wrap: wrap; justify-content: center; 
+            background: rgba(0, 0, 0, 0.85); padding: 10px; gap: 8px; 
+            position: sticky; top: 75px; z-index: 1000; border-bottom: 2px solid var(--accent);
+            backdrop-filter: blur(5px);
+        }
+        
+        .tab-btn { 
+            background: #fff; border: none; color: #333; padding: 10px 15px; 
+            cursor: pointer; font-weight: 600; font-size: 12px; border-radius: 5px; 
+            transition: 0.3s; text-transform: uppercase; 
+        }
+        
+        .tab-btn.active { background: var(--accent); color: #fff; }
+        .doc-btn { background: #ffcc00; color: #000; }
+
+        .container { max-width: 1000px; margin: 20px auto; padding: 0 15px 120px 15px; min-height: 100vh; position: relative; z-index: 10; }
+        
+        /* फ़िक्स: सर्च बार के अंदर नैनीताल वाली फोटो का आइकॉन */
+        .search-container { position: relative; margin-bottom: 25px; }
+        .search-container input { 
+            width: 100%; padding: 15px 50px 15px 20px; border-radius: 25px; 
+            border: 2px solid var(--accent); font-size: 16px; outline: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); background: var(--glass);
+        }
+        .search-icon-photo { 
+            position: absolute; right: 10px; top: 50%; transform: translateY(-50%); 
+            width: 35px; height: 35px; background-image: url('nainital.png');
+            background-size: cover; background-position: center;
+            border-radius: 50%; border: 2px solid var(--accent);
+        }
+
+        .section-content { display: none; }
+        .section-content.active { display: block; animation: fadeIn 0.4s ease; }
+        
+        .question-card { 
+            background: var(--glass); padding: 25px; border-radius: 12px; 
+            margin-bottom: 20px; border-left: 8px solid var(--accent);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); backdrop-filter: blur(5px);
+        }
+        
+        .q-text { font-size: 17px; font-weight: 600; color: #ad1457; display: block; margin-bottom: 15px; line-height: 1.4; }
+        .options { display: grid; grid-template-columns: 1fr; gap: 10px; }
+        .opt { background: #f9f9f9; padding: 12px 20px; border-radius: 8px; cursor: pointer; border: 1px solid #ddd; transition: 0.2s; font-size: 15px; }
+        .opt:hover { background: #eee; border-color: var(--accent); transform: translateX(5px); }
+        .correct { background: #c8e6c9 !important; color: #1b5e20 !important; font-weight: bold; border-color: #4caf50 !important; }
+        .wrong { background: #ffcdd2 !important; color: #b71c1c !important; border-color: #f44336 !important; }
+
+        /* Doc Viewer */
+        #docViewerContainer { width: 100%; height: 85vh; border-radius: 15px; overflow: hidden; border: 3px solid var(--accent); background: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        iframe { width: 100%; height: 100%; border: none; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        footer { position: fixed; bottom: 0; width: 100%; background: rgba(51, 51, 51, 0.95); color: white; text-align: center; padding: 15px; font-size: 14px; z-index: 1100; border-top: 3px solid var(--accent); }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1 style="margin:0; font-size: 24px;">Narendra Mahi | Master DevOps Quiz 2026</h1>
+    <p style="margin:5px 0 0; font-size:14px; opacity:0.8;">UST Global | Azure Cloud Engineering | George Motors Case Study</p>
+</header>
+
+<nav class="tabs">
+    <button class="tab-btn active" onclick="showTab('linux')">Linux</button>
+    <button class="tab-btn" onclick="showTab('azure')">Azure</button>
+    <button class="tab-btn" onclick="showTab('lz')">Landing Zone</button>
+    <button class="tab-btn" onclick="showTab('tf')">Terraform</button>
+    <button class="tab-btn" onclick="showTab('docker')">Docker</button>
+    <button class="tab-btn" onclick="showTab('k8s')">Kubernetes</button>
+    <button class="tab-btn doc-btn" onclick="showDoc()">DevOps Doc 📄</button>
+</nav>
+
+<div class="container">
+    
+    <div class="search-container">
+        <input type="text" id="quizSearch" placeholder="Search questions (e.g. Drift, George Motors...)" onkeyup="filterQuestions()">
+        <div class="search-icon-photo"></div>
+    </div>
+
+    <div id="quizContainer">
+        </div>
+    
+    <div id="docSection" class="section-content">
+        <div id="docViewerContainer">
+            <iframe id="docFrame" src=""></iframe>
+        </div>
+    </div>
+</div>
+
+<footer>Designed for Narendra Mahi | 186+ Questions | AKTU 2016</footer>
+
+<script>
+    // डेटा और लॉजिक बिना बदले (186 सवाल)
+    const quizData = {
+        linux: [
+            { q: "Current shell check command?", o: ["echo $SHELL", "which shell", "ps"], a: 0 },
+            { q: "Disk usage of folder?", o: ["du -sh", "df -h", "ls -l"], a: 0 },
+            { q: "Change file permissions?", o: ["chmod", "chown", "chgrp"], a: 0 },
+            { q: "Real-time log tailing?", o: ["tail -f", "cat", "more"], a: 0 },
+            { q: "System uptime command?", o: ["uptime", "time", "date"], a: 0 },
+            { q: "Create directory?", o: ["mkdir", "touch", "rm"], a: 0 },
+            { q: "Check running processes?", o: ["top", "ls", "pwd"], a: 0 },
+            { q: "Search string in file?", o: ["grep", "find", "locate"], a: 0 },
+            { q: "Current working directory?", o: ["pwd", "cd", "path"], a: 0 },
+            { q: "Delete empty directory?", o: ["rmdir", "rm -rf", "delete"], a: 0 },
+            { q: "View file content?", o: ["cat", "vi", "nano"], a: 0 },
+            { q: "Home directory symbol?", o: ["~", "/", ".."], a: 0 },
+            { q: "Kill process forcibly?", o: ["kill -9", "stop", "end"], a: 0 },
+            { q: "SSH default port?", o: ["22", "80", "443"], a: 0 },
+            { q: "Change file owner?", o: ["chown", "chmod", "acl"], a: 0 },
+            { q: "List hidden files?", o: ["ls -a", "ls -l", "ls -h"], a: 0 },
+            { q: "Check memory usage?", o: ["free -m", "df -h", "ps"], a: 0 },
+            { q: "Root user directory?", o: ["/root", "/home", "/bin"], a: 0 },
+            { q: "Check IP address?", o: ["ip addr", "ping", "netstat"], a: 0 },
+            { q: "Reboot command?", o: ["reboot", "exit", "logout"], a: 0 },
+            { q: "Environment variable view?", o: ["printenv", "set", "echo"], a: 0 },
+            { q: "Search for files?", o: ["find", "grep", "which"], a: 0 },
+            { q: "Last 10 lines?", o: ["tail", "head", "cat"], a: 0 },
+            { q: "First 10 lines?", o: ["head", "tail", "less"], a: 0 },
+            { q: "Extract tar file?", o: ["tar -xvf", "zip", "unzip"], a: 0 },
+            { q: "Count words in file?", o: ["wc -w", "count", "grep"], a: 0 },
+            { q: "Editor in terminal?", o: ["vi", "word", "notepad"], a: 0 },
+            { q: "Check CPU info?", o: ["lscpu", "ram", "hd"], a: 0 },
+            { q: "Move/Rename file?", o: ["mv", "cp", "rn"], a: 0 },
+            { q: "Copy file?", o: ["cp", "mv", "rm"], a: 0 },
+            { q: "Super user execute?", o: ["sudo", "run", "admin"], a: 0 }
+        ],
+        azure: [
+            { q: "Azure HA feature within DC?", o: ["Availability Set", "Zone", "Region"], a: 0 },
+            { q: "Scaling by adding more VMs?", o: ["Horizontal", "Vertical", "Diagonal"], a: 0 },
+            { q: "Scaling by adding RAM/CPU?", o: ["Vertical", "Horizontal", "Auto"], a: 0 },
+            { q: "Secure RDP service?", o: ["Azure Bastion", "VPN", "NSG"], a: 0 },
+            { q: "Default LRS replicas?", o: ["3", "6", "1"], a: 0 },
+            { q: "Region pair distance approx?", o: ["300 miles", "10 miles", "1000 miles"], a: 0 },
+            { q: "Standard VM Disk type?", o: ["Managed Disk", "USB", "CD"], a: 0 },
+            { q: "Discounted unused capacity?", o: ["Spot Instance", "Reserved", "Pay-as-go"], a: 0 },
+            { q: "Azure Firewall layer?", o: ["L3-L7", "L2", "L4 only"], a: 0 },
+            { q: "Global Web Accelerator?", o: ["Front Door", "Traffic Manager", "LB"], a: 0 },
+            { q: "DNS level routing?", o: ["Traffic Manager", "App Gateway", "Front Door"], a: 0 },
+            { q: "Layer 7 Load Balancer?", o: ["App Gateway", "Standard LB", "Basic LB"], a: 0 },
+            { q: "Secure Vault for keys?", o: ["Key Vault", "Storage", "Database"], a: 0 },
+            { q: "Identity service name?", o: ["Entra ID", "Active VM", "Cloud User"], a: 0 },
+            { q: "P2S VPN connect what?", o: ["PC to VNet", "VNet to VNet", "DC to DC"], a: 0 },
+            { q: "VNet Peering is for?", o: ["Connecting 2 VNets", "Internet", "Backup"], a: 0 },
+            { q: "NSG Priority rule?", o: ["Lower number wins", "Higher wins", "Name wins"], a: 0 },
+            { q: "Reserved IPs in Subnet?", o: ["5", "3", "0"], a: 0 },
+            { q: "Private Link connects via?", o: ["Private IP", "Public IP", "WIFI"], a: 0 },
+            { q: "Billing container name?", o: ["Subscription", "Resource Group", "Tag"], a: 0 },
+            { q: "Logical resource group?", o: ["Resource Group", "Region", "Zone"], a: 0 },
+            { q: "Track platform status?", o: ["Service Health", "Resource Health", "Ping"], a: 0 },
+            { q: "Automated VM cluster?", o: ["VMSS", "Availability Set", "Bastion"], a: 0 },
+            { q: "Temporary disk type?", o: ["Ephemeral", "Premium SSD", "Standard HDD"], a: 0 },
+            { q: "App Performance Monitoring?", o: ["App Insights", "Log Analytics", "Monitor"], a: 0 },
+            { q: "Cloud shell language?", o: ["Bash/PowerShell", "Python", "Java"], a: 0 },
+            { q: "Encryption by default?", o: ["SSE", "No Encryption", "User paid"], a: 0 },
+            { q: "Replicate across regions?", o: ["GRS", "LRS", "ZRS"], a: 0 },
+            { q: "Max Data Disks D2s?", o: ["4", "16", "64"], a: 0 },
+            { q: "OS for Azure Bastion?", o: ["Managed Service", "Linux VM", "Windows"], a: 0 },
+            { q: "Azure Advisor focus?", o: ["Cost/Security/Perf", "Games", "Emails"], a: 0 }
+        ],
+        lz: [
+            { q: "CAF full form?", o: ["Cloud Adoption Framework", "Cloud Admin File", "Center Core"], a: 0 },
+            { q: "Management Group use?", o: ["Multi-subscription Governance", "Backup", "VM Speed"], a: 0 },
+            { q: "Connectivity Sub contains?", o: ["Hub VNet/Firewall", "App Data", "User files"], a: 0 },
+            { q: "Governance pillar focus?", o: ["Cost & Security", "RAM", "Monitor"], a: 0 },
+            { q: "Landing Zone scale?", o: ["Enterprise scale", "Single user", "Trial"], a: 0 },
+            { q: "Hub and Spoke purpose?", o: ["Shared services hub", "Game center", "Local LAN"], a: 0 },
+            { q: "Policy enforcement tool?", o: ["Azure Policy", "Tags", "RBAC"], a: 0 },
+            { q: "Tagging primary use?", o: ["Cost Tracking", "Deleting", "Naming"], a: 0 },
+            { q: "Entra ID formerly?", o: ["Azure AD", "MS Login", "User Store"], a: 0 },
+            { q: "WAF full form?", o: ["Well-Architected Framework", "Web Firewall", "Wire file"], a: 0 },
+            { q: "Shared Identity store?", o: ["Identity Subscription", "Local PC", "RG"], a: 0 },
+            { q: "RBAC stands for?", o: ["Role Based Access Control", "Rule Base", "Remote Backup"], a: 0 },
+            { q: "Least Privilege role?", o: ["Reader/Contributor", "Owner", "Global Admin"], a: 0 },
+            { q: "Log Analytics Workspace?", o: ["Central Log Storage", "Disk", "CPU"], a: 0 },
+            { q: "Sandbox Sub use?", o: ["Testing/Learning", "Production", "Billing"], a: 0 },
+            { q: "Naming Convention benefit?", o: ["Standardization", "Boot speed", "Less cost"], a: 0 },
+            { q: "Enterprise Enrollment?", o: ["Commercial Agreement", "User Signup", "Free"], a: 0 },
+            { q: "Spoke VNet contains?", o: ["Workloads/Apps", "Firewall", "ExpressRoute"], a: 0 },
+            { q: "VNet Peering in LZ?", o: ["Connect Spoke to Hub", "Public Net", "Storage"], a: 0 },
+            { q: "DDoS Protection focus?", o: ["Network Security", "Billing", "RAM"], a: 0 },
+            { q: "Blueprints help in?", o: ["Deployment Governance", "Drawing", "Costing"], a: 0 },
+            { q: "Azure Lighthouse used by?", o: ["Service Providers", "Individual", "Trial"], a: 0 },
+            { q: "Guardrails focus?", o: ["Security & Compliance", "Hardware", "Screen"], a: 0 },
+            { q: "Custom Roles in RBAC?", o: ["Fine-grained control", "Owner only", "Fixed"], a: 0 },
+            { q: "Defender for Cloud?", o: ["Security Posture", "Antivirus only", "Email"], a: 0 },
+            { q: "Governance automation?", o: ["Policies & Blueprints", "Manual", "Emails"], a: 0 },
+            { q: "Root Mgmt Group?", o: ["Top level container", "RG", "Resource"], a: 0 },
+            { q: "Policy Audit vs Deny?", o: ["Check vs Block", "Only block", "Delete"], a: 0 },
+            { q: "Cloud Operating Model?", o: ["Ops strategy", "OS name", "AWS tool"], a: 0 },
+            { q: "Landing Zone design?", o: ["Modular", "Monolithic", "Single"], a: 0 },
+            { q: "Critical Workloads LZ?", o: ["Prod LZ", "Sandbox", "Dev"], a: 0 }
+        ],
+        tf: [
+            { q: "HCL full form?", o: ["HashiCorp Config Lang", "High Cloud", "Hard Code"], a: 0 },
+            { q: "Download providers?", o: ["terraform init", "plan", "apply"], a: 0 },
+            { q: "Show changes preview?", o: ["terraform plan", "show", "output"], a: 0 },
+            { q: "Execute changes?", o: ["terraform apply", "plan", "init"], a: 0 },
+            { q: "Remove infrastructure?", o: ["terraform destroy", "rm", "delete"], a: 0 },
+            { q: "State file format?", o: ["JSON", "YAML", "XML"], a: 0 },
+            { q: "State Locking tool?", o: ["Remote Backend", "Local file", "Git"], a: 0 },
+            { q: "Azure remote backend?", o: ["Blob Storage", "S3", "Disk"], a: 0 },
+            { q: "Reusable code block?", o: ["Module", "Resource", "Variable"], a: 0 },
+            { q: "Manual dependency?", o: ["depends_on", "count", "output"], a: 0 },
+            { q: "Iterate over list?", o: ["count", "if", "for_each"], a: 0 },
+            { q: "Iterate over map?", o: ["for_each", "count", "while"], a: 0 },
+            { q: "Force recreation?", o: ["terraform taint", "init", "plan"], a: 0 },
+            { q: "Fix drift manually?", o: ["terraform import", "init", "output"], a: 0 },
+            { q: "Input values file?", o: [".tfvars", ".state", ".log"], a: 0 },
+            { q: "Hide console value?", o: ["sensitive = true", "private", "lock"], a: 0 },
+            { q: "Implicit dependency?", o: ["Attribute reference", "depends_on", "null"], a: 0 },
+            { q: "Refresh state command?", o: ["terraform refresh", "plan", "sync"], a: 0 },
+            { q: "Check HCL syntax?", o: ["terraform validate", "fmt", "plan"], a: 0 },
+            { q: "Auto-format code?", o: ["terraform fmt", "validate", "plan"], a: 0 },
+            { q: "Variable type 'string'?", o: ["Primitive", "Collection", "Complex"], a: 0 },
+            { q: "Variable type 'map'?", o: ["Collection", "Primitive", "Any"], a: 0 },
+            { q: "Output value visibility?", o: ["terraform output", "plan", "state"], a: 0 },
+            { q: "Provider block purpose?", o: ["Connect to Cloud", "Name VM", "State"], a: 0 },
+            { q: "Terraform versioning?", o: ["required_version", "tag", "commit"], a: 0 },
+            { q: "Backend block location?", o: ["terraform block", "resource", "locals"], a: 0 },
+            { q: "Multi-env state?", o: ["Workspaces", "Folders", "Both"], a: 0 },
+            { q: "Terraform Graph use?", o: ["Visual dependency", "Billing", "RAM"], a: 0 },
+            { q: "Provisioner usage?", o: ["Last resort", "First choice", "Default"], a: 0 },
+            { q: "Infrastructure Drift?", o: ["Manual change mismatch", "Speed", "Price"], a: 0 },
+            { q: "Terraform Idempotency?", o: ["Repeatable result", "Faster", "Deletes all"], a: 0 }
+        ],
+        docker: [
+            { q: "Read-only blueprint?", o: ["Docker Image", "Container", "Volume"], a: 0 },
+            { q: "Running instance?", o: ["Container", "Image", "Registry"], a: 0 },
+            { q: "Build script name?", o: ["Dockerfile", "docker.yaml", "build.txt"], a: 0 },
+            { q: "Public image store?", o: ["Docker Hub", "Git", "Store"], a: 0 },
+            { q: "Port mapping flag?", o: ["-p", "-m", "-port"], a: 0 },
+            { q: "Interactive terminal?", o: ["-it", "-d", "-rm"], a: 0 },
+            { q: "Detach mode flag?", o: ["-d", "-i", "-t"], a: 0 },
+            { q: "List running containers?", o: ["docker ps", "docker ls", "docker list"], a: 0 },
+            { q: "List all images?", o: ["docker images", "docker ps", "docker img"], a: 0 },
+            { q: "Delete container?", o: ["docker rm", "docker rmi", "docker stop"], a: 0 },
+            { q: "Delete image?", o: ["docker rmi", "docker rm", "docker del"], a: 0 },
+            { q: "OS sharing tech?", o: ["Containers", "VMs", "Bare metal"], a: 0 },
+            { q: "Build command?", o: ["docker build", "docker run", "docker create"], a: 0 },
+            { q: "Copy file to container?", o: ["docker cp", "docker mv", "docker push"], a: 0 },
+            { q: "See container logs?", o: ["docker logs", "docker cat", "docker tail"], a: 0 },
+            { q: "Resource isolation?", o: ["Namespaces/Cgroups", "RAM", "CPU"], a: 0 },
+            { q: "Multi-stage build benefit?", o: ["Small image size", "Security", "Speed"], a: 0 },
+            { q: "Container orchestration?", o: ["Kubernetes", "Word", "Excel"], a: 0 },
+            { q: "Persistent data store?", o: ["Volumes", "RAM", "Image"], a: 0 },
+            { q: "Stop container?", o: ["docker stop", "docker kill", "docker pause"], a: 0 },
+            { q: "Login to registry?", o: ["docker login", "docker push", "docker start"], a: 0 },
+            { q: "Container IP check?", o: ["docker inspect", "docker ps", "docker ping"], a: 0 },
+            { q: "Docker base image?", o: ["FROM", "RUN", "COPY"], a: 0 },
+            { q: "Run shell command?", o: ["RUN", "CMD", "ENTRYPOINT"], a: 0 },
+            { q: "Final runtime command?", o: ["CMD", "FROM", "ADD"], a: 0 },
+            { q: "Image layers benefit?", o: ["Caching/Speed", "Color", "Price"], a: 0 },
+            { q: "Docker daemon role?", o: ["Manages objects", "Text editor", "Browser"], a: 0 },
+            { q: "Docker compose file?", o: ["YAML", "JSON", "TXT"], a: 0 },
+            { q: "Multi-container tool?", o: ["Docker Compose", "Run", "Build"], a: 0 },
+            { q: "Docker Engine parts?", o: ["Daemon/API/CLI", "CPU/RAM", "OS"], a: 0 },
+            { q: "Container vs VM size?", o: ["Container is smaller", "VM is smaller", "Same"], a: 0 }
+        ],
+        k8s: [
+            { q: "Smallest unit?", o: ["Pod", "Node", "Container"], a: 0 },
+            { q: "Pod count manager?", o: ["ReplicaSet", "Kubelet", "Proxy"], a: 0 },
+            { q: "Node agent name?", o: ["Kubelet", "API Server", "Scheduler"], a: 0 },
+            { q: "Cluster brain?", o: ["Control Plane", "Worker Node", "Pod"], a: 0 },
+            { q: "External access mgr?", o: ["Ingress", "Service", "NodePort"], a: 0 },
+            { q: "Stable IP for Pods?", o: ["Service", "Pod IP", "DNS"], a: 0 },
+            { q: "Package manager?", o: ["Helm", "APT", "YUM"], a: 0 },
+            { q: "K8s CLI tool?", o: ["kubectl", "kubeadm", "helm"], a: 0 },
+            { q: "Store non-sensitive config?", o: ["ConfigMap", "Secret", "Volume"], a: 0 },
+            { q: "Store sensitive data?", o: ["Secret", "ConfigMap", "KV"], a: 0 },
+            { q: "Namespace purpose?", o: ["Resource Isolation", "Naming", "IP"], a: 0 },
+            { q: "Desired state database?", o: ["etcd", "MySQL", "Redis"], a: 0 },
+            { q: "Assigns Pods to Nodes?", o: ["Scheduler", "API Server", "Kubelet"], a: 0 },
+            { q: "Communication manager?", o: ["API Server", "Scheduler", "Node"], a: 0 },
+            { q: "Traffic routing agent?", o: ["Kube-proxy", "Kubelet", "Master"], a: 0 },
+            { q: "Auto-healing tech?", o: ["Self-healing/Liveness", "Manual", "Logs"], a: 0 },
+            { q: "DaemonSet runs where?", o: ["Every node", "One node", "Control plane"], a: 0 },
+            { q: "Stateful app manager?", o: ["StatefulSet", "Deployment", "Job"], a: 0 },
+            { q: "Batch work manager?", o: ["Job", "CronJob", "Pod"], a: 0 },
+            { q: "Horizontal Pod Autoscaler?", o: ["HPA", "VPA", "CA"], a: 0 },
+            { q: "Storage abstraction?", o: ["PV/PVC", "Disk", "Volume"], a: 0 },
+            { q: "Checks if Pod is ready?", o: ["Readiness Probe", "Liveness", "Startup"], a: 0 },
+            { q: "Checks if Pod crashed?", o: ["Liveness Probe", "Readiness", "Scheduler"], a: 0 },
+            { q: "Deployment strategy default?", o: ["RollingUpdate", "Recreate", "BlueGreen"], a: 0 },
+            { q: "K8s distribution name?", o: ["AKS/EKS/GKE", "Windows", "Chrome"], a: 0 },
+            { q: "Pod with 2 containers?", o: ["Sidecar pattern", "Single", "Cluster"], a: 0 },
+            { q: "Manage many clusters?", o: ["Kubefed", "Kubectl", "API"], a: 0 },
+            { q: "Node capacity check?", o: ["Kubelet", "Proxy", "Pod"], a: 0 },
+            { q: "Cluster wide logs?", o: ["EFK Stack", "Notepad", "Excel"], a: 0 },
+            { q: "Custom Resource Definition?", o: ["CRD", "YAML", "Pod"], a: 0 },
+            { q: "Network Policy role?", o: ["Traffic control", "Billing", "Scaling"], a: 0 }
+        ]
+    };
+
+    function generateQuiz() {
+        const container = document.getElementById('quizContainer');
+        for (let section in quizData) {
+            const div = document.createElement('div');
+            div.id = section;
+            div.className = `section-content ${section === 'linux' ? 'active' : ''}`;
+            
+            quizData[section].forEach((item, index) => {
+                const card = `
+                    <div class="question-card">
+                        <span class="q-text">Q${index + 1}: ${item.q}</span>
+                        <div class="options">
+                            ${item.o.map((opt, i) => `
+                                <div class="opt" onclick="check(this, ${i === item.a})">${opt}</div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                div.innerHTML += card;
+            });
+            container.appendChild(div);
+        }
+    }
+
+    function showTab(id) {
+        document.querySelectorAll('.section-content').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        event.currentTarget.classList.add('active');
+        document.getElementById('quizSearch').value = ""; 
+        filterQuestions(); 
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+
+    function showDoc() {
+        showTab('docSection');
+        const docUrl = "devops_doc.docx"; 
+        const viewerUrl = "https://docs.google.com/gview?url=" + window.location.href.replace('index.html','') + docUrl + "&embedded=true";
+        document.getElementById('docFrame').src = viewerUrl;
+    }
+
+    function check(el, isCorrect) {
+        const parent = el.parentElement;
+        parent.querySelectorAll('.opt').forEach(o => o.classList.remove('correct', 'wrong'));
+        if (isCorrect) el.classList.add('correct');
+        else el.classList.add('wrong');
+    }
+
+    function filterQuestions() {
+        let input = document.getElementById('quizSearch').value.toLowerCase();
+        let cards = document.querySelectorAll('.question-card');
+        cards.forEach(card => {
+            let text = card.innerText.toLowerCase();
+            card.style.display = text.includes(input) ? "block" : "none";
+        });
+    }
+
+    generateQuiz();
+</script>
+</body>
+</html>
