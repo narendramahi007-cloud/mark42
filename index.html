@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Narendra Mahi | Master DevOps Encyclopedia 2026</title>
+    <link rel="icon" type="image/png" href="nainital.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root { --accent: #ad1457; --text: #333; --glass: rgba(255, 255, 255, 0.92); }
+        
+        /* 🔥 STRICT ANTI PULL-TO-REFRESH FOR ANDROID WEBVIEW 🔥 */
+        html, body { 
+            font-family: 'Poppins', sans-serif; margin: 0; padding: 0; 
+            height: 100%; width: 100%;
+            overscroll-behavior-y: none; /* Locks pull-to-refresh */
+            overscroll-behavior-x: none;
+            background: linear-gradient(rgba(255,255,255,0.75), rgba(255,255,255,0.75)), url('nainital.png');
+            background-attachment: fixed; background-repeat: no-repeat;
+            background-position: center; background-size: cover;
+            color: var(--text); overflow-y: auto; overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        header { background: rgba(51, 51, 51, 0.9); padding: 15px; text-align: center; color: white; border-bottom: 4px solid var(--accent); position: sticky; top: 0; z-index: 2000; backdrop-filter: blur(5px); }
+        
+        .tabs { 
+            display: flex; flex-wrap: wrap; justify-content: center; 
+            background: rgba(0, 0, 0, 0.85); padding: 10px; gap: 8px; 
+            position: sticky; top: 65px; z-index: 1000; border-bottom: 2px solid var(--accent);
+        }
+        
+        .tab-btn { 
+            background: #fff; border: none; color: #333; padding: 10px 14px; 
+            cursor: pointer; font-weight: 600; font-size: 11px; border-radius: 5px; 
+            transition: 0.3s; text-transform: uppercase; display: flex; align-items: center; gap: 5px;
+        }
+        
+        .tab-btn.active { background: var(--accent); color: #fff; }
+        .doc-btn { background: #ffcc00 !important; color: #000 !important; }
+        .gallery-btn { background: #1e88e5 !important; color: #fff !important; }
+
+        .container { max-width: 1000px; margin: 10px auto; padding: 0 15px 100px 15px; min-height: 100vh; position: relative; }
+        
+        .search-container { position: relative; margin: 15px 0; }
+        .search-container input { 
+            width: 100%; padding: 15px 50px 15px 20px; border-radius: 25px; 
+            border: 2px solid var(--accent); font-size: 16px; outline: none; background: var(--glass);
+        }
+        .search-icon-photo { 
+            position: absolute; right: 10px; top: 50%; transform: translateY(-50%); 
+            width: 35px; height: 35px; background: url('nainital.png') center/cover;
+            border-radius: 50%; border: 2px solid var(--accent);
+        }
+
+        .inner-doc-box { margin-bottom: 20px; }
+        .inner-doc-link { display: inline-block; background: #2196F3; color: white; padding: 12px 20px; border-radius: 8px; text-decoration: none; font-weight: bold; box-shadow: 0 4px 10px rgba(33,150,243,0.3); }
+
+        .section-content { display: none; width: 100%; }
+        .active-section { display: block; animation: fadeIn 0.3s ease; }
+        
+        .question-card { 
+            background: var(--glass); padding: 22px; border-radius: 12px; 
+            margin-bottom: 15px; border-left: 8px solid var(--accent);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .q-text { font-size: 17px; font-weight: 600; color: #ad1457; display: block; margin-bottom: 12px; line-height: 1.4; }
+        .options { display: grid; grid-template-columns: 1fr; gap: 8px; }
+        .opt { background: #fff; padding: 12px 18px; border-radius: 8px; cursor: pointer; border: 1px solid #ddd; transition: 0.2s; }
+        .opt:hover { border-color: var(--accent); transform: translateX(5px); }
+        .correct { background: #c8e6c9 !important; border-color: #4caf50; font-weight: bold; color: #1b5e20; }
+        .wrong { background: #ffcdd2 !important; border-color: #f44336; color: #b71c1c; }
+
+        .exp-box {
+            display: none; margin-top: 15px; padding: 12px; background: #e3f2fd;
+            border-left: 4px solid #1976d2; border-radius: 6px; font-size: 14px;
+            color: #333; line-height: 1.5; animation: fadeIn 0.3s ease;
+        }
+
+        #docViewerContainer { width: 100%; height: 90vh; display: none; border-radius: 10px; overflow: hidden; background: white; }
+        iframe { width: 100%; height: 100%; border: none; }
+
+        /* 🔥 PHOTO GALLERY STYLES 🔥 */
+        .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; margin-top: 20px; }
+        .photo-card { border-radius: 10px; overflow: hidden; height: 160px; background: #000; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: 0.3s; }
+        .photo-card:active { transform: scale(0.95); }
+        .photo-card img { width: 100%; height: 100%; object-fit: cover; }
+        
+        /* 🔥 LIGHTBOX & ZOOM STYLES 🔥 */
+        .lightbox {
+            display: none; position: fixed; z-index: 100000; left: 0; top: 0; width: 100vw; height: 100vh;
+            background-color: rgba(0,0,0,0.95); align-items: center; justify-content: center; overscroll-behavior: none;
+        }
+        .lightbox-content-wrapper { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: auto; }
+        .lightbox-content-wrapper img { max-width: 100vw; max-height: 100vh; object-fit: contain; transition: transform 0.3s ease-in-out; transform-origin: center center; }
+        
+        .lightbox-close-btn { position: absolute; top: 20px; right: 20px; color: #fff; font-size: 30px; cursor: pointer; z-index: 100001; background: rgba(255,0,0,0.7); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); font-size: 25px; color: white; background: rgba(0,0,0,0.6); border: none; cursor: pointer; padding: 15px 20px; border-radius: 50%; z-index: 100001; }
+        .lightbox-prev { left: 15px; } .lightbox-next { right: 15px; }
+        .lightbox-counter { position: absolute; top: 20px; left: 20px; color: white; font-size: 14px; font-weight: bold; background: rgba(0,0,0,0.6); padding: 8px 16px; border-radius: 20px; z-index: 100001;}
+        
+        /* Zoom Controls */
+        .zoom-controls { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; gap: 20px; z-index: 100001; }
+        .zoom-btn { background: rgba(255,255,255,0.2); color: white; border: 2px solid white; border-radius: 50%; width: 50px; height: 50px; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+        .zoom-btn:active { background: rgba(255,255,255,0.5); }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        footer { position: fixed; bottom: 0; width: 100%; background: #333; color: white; text-align: center; padding: 12px; font-size: 13px; z-index: 2000; border-top: 3px solid var(--accent); }
+    </style>
+</head>
+<body>
+
+<header><h1>Narendra Mahi Master Encyclopedia</h1></header>
+
+<nav class="tabs">
+    <button class="tab-btn active" onclick="switchTab('linux')">🐧 Linux</button>
+    <button class="tab-btn" onclick="switchTab('azure')">☁️ Azure</button>
+    <button class="tab-btn" onclick="switchTab('lz')">🏗️ LZ</button>
+    <button class="tab-btn" onclick="switchTab('tf')">🛠️ TF</button>
+    <button class="tab-btn" onclick="switchTab('cicd')">🔄 CI/CD</button>
+    <button class="tab-btn" onclick="switchTab('git')">🌲 Git</button>
+    <button class="tab-btn" onclick="switchTab('docker')">🐳 Docker</button>
+    <button class="tab-btn" onclick="switchTab('k8s')">☸️ K8s</button>
+    
+    <button class="tab-btn gallery-btn" onclick="openMark42Photos()"><i class="fa-solid fa-camera"></i> Mark42 Photos</button>
+    
+    <button class="tab-btn doc-btn" onclick="openDocFile('devops_doc.docx')">📄 Full Doc</button>
+</nav>
+
+<div class="container">
+    <div class="search-container">
+        <input type="text" id="quizSearch" placeholder="Search questions..." onkeyup="filterQuiz()">
+        <div class="search-icon-photo"></div>
+    </div>
+
+    <div id="quizArea"></div>
+    
+    <div id="docViewerContainer"><iframe id="docFrame"></iframe></div>
+
+    <div id="mark42Section" class="section-content">
+        <h2 style="color:var(--accent); text-align:center; margin-top:20px;">Mark42 Repository Gallery</h2>
+        <div class="photo-grid" id="mark42Grid"></div>
+    </div>
+</div>
+
+<div id="mediaLightbox" class="lightbox">
+    <div class="lightbox-counter" id="lightboxCounter">1 / 1</div>
+    <div class="lightbox-close-btn" onclick="closeLightbox()"><i class="fa-solid fa-xmark"></i></div>
+    
+    <button class="lightbox-nav lightbox-prev" onclick="navLightbox(-1)">&#10094;</button>
+    <div class="lightbox-content-wrapper" id="lightboxContent"></div>
+    <button class="lightbox-nav lightbox-next" onclick="navLightbox(1)">&#10095;</button>
+
+    <div class="zoom-controls">
+        <button class="zoom-btn" onclick="zoomIn()"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+        <button class="zoom-btn" onclick="zoomOut()"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+    </div>
+</div>
+
+<footer>Designed for Narendra Mahi | 2026</footer>
+
+<script>
+    // 🔥 ANTI PULL-TO-REFRESH JAVASCRIPT 🔥
+    let touchStartY = 0;
+    document.addEventListener('touchstart', e => { touchStartY = e.touches[0].clientY; }, { passive: true });
+    document.addEventListener('touchmove', e => {
+        const touchY = e.touches[0].clientY;
+        const touchDiff = touchY - touchStartY;
+        if (touchDiff > 0 && window.scrollY === 0) {
+            // Stops the pull down to refresh behavior on mobile webviews
+            const scrollableTarget = e.target.closest('.lightbox-content-wrapper, .container');
+            if (!scrollableTarget || scrollableTarget.scrollTop <= 0) {
+                if(e.cancelable) e.preventDefault();
+            }
+        }
+    }, { passive: false });
+
+    // 🔥 QUIZ DATA (100% SECURED - NOTHING REMOVED) 🔥
+    const quizData = {
+        tf: [
+            {q: "What is the primary difference between Terraform and CloudFormation?", o: ["CloudFormation uses HCL", "Terraform only supports AWS", "Terraform is multi-cloud and uses HCL, while CloudFormation is AWS-only", "CloudFormation works across GCP and Azure"], a: 2, exp: "Both are IaC tools, but CloudFormation only works with AWS, while Terraform works with any cloud (AWS, Azure, GCP, etc.) and uses HCL."},
+            {q: "What role does a Terraform provider play in your configuration?", o: ["It translates Terraform code into specific cloud API calls", "It stores state files securely", "It tests the code for syntax errors", "It automatically deploys resources"], a: 0, exp: "A provider is a plugin that acts as a translator between Terraform and the cloud API. For example, the AWS provider knows how to create EC2 instances."},
+            {q: "Why is the Terraform state file critically important?", o: ["It contains the source code for the infrastructure", "It keeps track of what resources Terraform created and their current settings", "It acts as a backup for the Cloud provider", "It prevents unauthorized users from running configurations"], a: 1, exp: "The state file (terraform.tfstate) is Terraform's memory. Every time you run plan or apply, Terraform reads it to compare against your config and real cloud."},
+            {q: "Why should a team use a remote backend instead of a local state file?", o: ["To speed up the execution of terraform plan", "To avoid using Cloud APIs entirely", "To share the same state, enable state locking, and keep backups", "To bypass IAM permissions in AWS"], a: 2, exp: "A remote backend stores state in a shared location. This ensures everyone shares the same state, state locking prevents concurrent apply issues, and it is backed up."},
+            {q: "How does state locking protect Terraform workflows?", o: ["It encrypts the state file with KMS", "It forces users to authenticate via OIDC", "It prevents multiple terraform apply commands from running simultaneously on the same state", "It locks the AWS account from manual changes"], a: 2, exp: "State locking prevents race conditions where two changes could conflict and corrupt the state file."},
+            {q: "What is the function of Terraform workspaces?", o: ["They allow multiple independent state files from the same configuration", "They act as virtual machines for testing code", "They manage GitHub branching strategies", "They completely isolate provider plugins"], a: 0, exp: "Workspaces let you have multiple independent state files from the same configuration, allowing deployments like dev, staging, and prod from one codebase."},
+            {q: "What is the difference between terraform plan and terraform apply?", o: ["apply shows a dry run, plan executes it", "plan shows a dry run of changes; apply actually executes those changes", "plan validates syntax only, apply connects to the cloud", "plan downloads modules, apply runs them"], a: 1, exp: "terraform plan is a preview showing what will change, while terraform apply actually executes those changes against the cloud provider."},
+            {q: "When would you use the terraform import command?", o: ["To download external modules from GitHub", "To import data from a CSV file into Terraform", "To bring existing manually created resources under Terraform's management", "To copy state files across regions"], a: 2, exp: "terraform import brings existing resources under Terraform's management by adding them to the state file, though you still must write the matching config."},
+            {q: "What does marking a resource as 'tainted' accomplish?", o: ["It permanently deletes the resource from the cloud", "It skips the resource during the next apply", "It marks the resource to be destroyed and recreated on the next apply", "It triggers a security alert in Terraform Cloud"], a: 2, exp: "Tainting a resource forces Terraform to destroy and recreate it on the next apply, which is useful when a resource is in a broken state."},
+            {q: "What distinguishes a root module from a child module?", o: ["Root modules cannot have variables", "Child modules can only run on local machines", "The root module is the main directory where commands run; child modules are called by the root", "Root modules are downloaded from the registry"], a: 2, exp: "The root module is the main directory where you run terraform commands, while child modules are like helper functions called from the root."},
+            {q: "How is data passed between different Terraform modules?", o: ["Via the terraform.tfvars file globally", "Using input variables and outputs", "By writing to a temporary local file", "Through the Terraform state lock"], a: 1, exp: "You pass data between modules using input variables (to send data in) and outputs (to return data back to the root module)."},
+            {q: "What is the Terraform Registry?", o: ["A secure vault for passwords", "HashiCorp's public library of providers and reusable modules", "A local cache of downloaded plugins", "An active directory for Terraform users"], a: 1, exp: "The Terraform Registry is a public library where you can find official providers (like AWS/Azure) and ready-made modules to save time."},
+            {q: "Why is versioning Terraform modules with Git tags important?", o: ["It prevents callers from pulling breaking changes immediately by pinning to specific versions", "It speeds up the git clone process", "It encrypts the module source code automatically", "It is required to run terraform init"], a: 0, exp: "Pinning to a version tag means callers upgrade on their own schedule. If a module updates, it won't break dependent infrastructure immediately."},
+            {q: "What is a potential risk of using the -target flag?", o: ["It permanently deletes all other resources", "It forces a complete state wipe", "It can leave infrastructure in an inconsistent state where dependent resources aren't updated", "It bypasses all cloud provider authentication"], a: 2, exp: "The -target flag applies changes to specific resources only. Overusing it is a bad practice as it can cause inconsistencies in your infrastructure."},
+            {q: "What does a data source do in Terraform?", o: ["It creates databases in the cloud automatically", "It reads existing infrastructure not created by the current config", "It injects dummy data for testing purposes", "It backs up the state file to a remote server"], a: 1, exp: "A data source lets you query and read existing infrastructure (like a shared VPC) without creating or modifying it."},
+            {q: "How does the 'create_before_destroy' lifecycle rule work?", o: ["It destroys the old resource, waits 5 minutes, then creates the new one", "It creates the new resource before destroying the old one, aiding zero-downtime updates", "It prevents a resource from ever being destroyed", "It ignores all manual changes made in the UI"], a: 1, exp: "The create_before_destroy lifecycle setting tells Terraform to spin up the replacement resource first before deleting the old one to avoid service interruption."},
+            {q: "What happens if you remove an item from the middle of a list when using the 'count' argument?", o: ["Terraform renumbers subsequent resources, causing them to be destroyed and recreated", "Nothing, Terraform handles it seamlessly", "The execution crashes with a syntax error", "The state file becomes permanently locked"], a: 0, exp: "Because count relies on numerical indexes, removing an item from the middle shifts the indexes, causing Terraform to destroy and recreate subsequent resources."},
+            {q: "Why is for_each generally preferred over count for resources with distinct identities?", o: ["It runs significantly faster", "It uses a map or set, so removing an item only destroys that specific resource without shifting others", "It does not require a state file", "It is the only way to create AWS EC2 instances"], a: 1, exp: "for_each assigns unique keys instead of numerical indexes. If you remove an item, only that specific instance is destroyed, leaving others untouched."},
+            {q: "What occurs when two people run terraform apply at the exact same time without state locking?", o: ["Terraform automatically merges their changes safely", "The state file can become corrupted as the second write overwrites the first", "The cloud provider blocks the API calls", "Terraform creates duplicate identical environments"], a: 1, exp: "Without state locking, both processes read the same state, make changes, and write back, which can cause the second apply to overwrite the first."},
+            {q: "How should you handle sensitive data (like passwords) in Terraform state?", o: ["Keep the state file in a public GitHub repository", "Terraform encrypts state fields by default locally", "Use a remote backend with encryption and restrict access using IAM policies", "Delete the state file after every apply"], a: 2, exp: "Terraform state contains plain text secrets. You must use an encrypted remote backend (like S3 with KMS) and restrict access using least privilege policies."},
+            {q: "What is the purpose of terraform state mv?", o: ["To move the state file to a new S3 bucket", "To move a resource from one name to another in the state file without recreating it", "To delete a resource completely", "To upgrade Terraform to a new version"], a: 1, exp: "terraform state mv updates the state to use a new resource name. It allows refactoring code without destroying the actual cloud resource."},
+            {q: "What is the risk of using terraform state rm?", o: ["It deletes the cloud resource permanently", "It corrupts the AWS account credentials", "Terraform forgets the resource exists, and might try to create a duplicate on the next apply", "It clears all output variables"], a: 2, exp: "terraform state rm removes the resource from the state file but leaves it running in the cloud, which could lead to duplicates if the config still exists."},
+            {q: "How do you migrate Terraform state from a local backend to an S3 backend?", o: ["Copy the JSON text manually into the AWS console", "Add the new backend config and run terraform init to let Terraform copy the state", "Run terraform state push s3://mybucket", "Delete the local state and run terraform apply"], a: 1, exp: "By adding the new backend block and running terraform init, Terraform detects the change and automatically prompts to migrate your state."},
+            {q: "Why use partial backend configuration in Terraform?", o: ["To avoid defining any backend at all", "To pass settings like secrets at runtime so they aren't hardcoded in source control", "To only apply half of the infrastructure", "To bypass state locking entirely"], a: 1, exp: "Partial configuration lets you omit sensitive settings from the code and pass them during 'terraform init' to keep secrets out of source code."},
+            {q: "When should you use the depends_on meta-argument?", o: ["For every single resource to guarantee order", "When there is a hidden dependency that Terraform cannot auto-detect from resource references", "Only when using Terraform modules", "To link Terraform to an Ansible playbook"], a: 1, exp: "depends_on explicitly tells Terraform that one resource relies on another. Use it only when Terraform cannot figure it out automatically from references."}
+        ],
+        linux: [
+            {q: "How do you identify a process that is consuming too much CPU in real-time?", o: ["Use 'df -h'", "Run 'top' or 'htop' and sort by CPU usage", "Execute 'ping localhost'", "Use 'free -m'"], a: 1, exp: "The 'top' or 'htop' utilities provide real-time, dynamic views of system processes, allowing you to easily sort and identify CPU bottlenecks."},
+            {q: "A disk is full but 'df -h' and 'du -sh' show different results. What is the most likely cause?", o: ["The disk is physically damaged", "Deleted files are still being held open by a running process", "A rootkit is hiding files", "The filesystem is read-only"], a: 1, exp: "When a file is deleted but a process is still writing to it, the OS doesn't free the space. Use 'lsof +L1' to find and restart the process."},
+            {q: "What is the functional difference between hard links and soft links?", o: ["Soft links share inodes; hard links are shortcuts", "Hard links share the exact same inode; soft links just point to the original file path", "Hard links work across different file systems", "Soft links cannot point to directories"], a: 1, exp: "Hard links point directly to the data inode, so moving the original doesn't break them. Soft links are just path pointers and break if the target moves."},
+            {q: "Which command checks the active network connections and listening ports on a server?", o: ["netstat or ss", "traceroute", "ifconfig", "iptables"], a: 0, exp: "The 'ss' (or older 'netstat') command displays active socket connections, open ports, and routing tables. Example: 'ss -tulnp'."},
+            {q: "How can you change kernel parameters dynamically without rebooting the server?", o: ["Edit /etc/fstab", "Use the 'sysctl -w' command", "Recompile the kernel", "Run 'systemctl restart kernel'"], a: 1, exp: "The 'sysctl -w' command or writing directly to /proc/sys/ allows you to modify kernel parameters on the fly without a reboot."},
+            {q: "What is a Zombie process?", o: ["A virus that replicates in the background", "A terminated process whose parent hasn't read its exit status yet", "A process that uses 100% of memory", "A process running on a remote server"], a: 1, exp: "A zombie process is dead, but its parent hasn't acknowledged it. You can clear them by sending a SIGCHLD to the parent or killing the parent."},
+            {q: "What does setting the sticky bit on a directory do?", o: ["Grants everyone root access", "Prevents anyone from deleting the directory", "Ensures only the file owner or root can delete files within that directory", "Encrypts the files automatically"], a: 2, exp: "The sticky bit (chmod +t) is commonly used on /tmp so that users can create files, but they cannot delete files owned by other users."},
+            {q: "What role does an Inode play in the Linux file system?", o: ["It stores network routing metadata", "It contains file metadata like permissions, ownership, and physical disk block locations", "It controls user passwords", "It runs background scheduled tasks"], a: 1, exp: "An inode is a data structure containing metadata about a file (everything except its name and the actual data content)."},
+            {q: "Which tool tracks system calls and signals made by a command?", o: ["tcpdump", "strace", "awk", "grep"], a: 1, exp: "The 'strace' command is a powerful debugging tool that intercepts and records system calls and signals made by a process."},
+            {q: "What does a high 'Load Average' with low CPU utilization typically indicate?", o: ["The CPU is broken", "The system has run out of RAM", "Processes are waiting heavily on slow disk I/O or network responses", "The server is being DDOSed"], a: 2, exp: "Load average counts processes waiting to run. If CPU is idle but load is high, processes are stuck in 'uninterruptible sleep' waiting for I/O."},
+            {q: "How do you securely terminate a hung process forcefully?", o: ["kill -9 <PID>", "kill -15 <PID>", "systemctl stop <PID>", "rm -rf /proc/<PID>"], a: 0, exp: "'kill -9' sends the SIGKILL signal which forces the kernel to instantly terminate the process without cleanup. 'kill -15' is a graceful term."},
+            {q: "What is the primary function of Swap space?", o: ["To backup the root directory", "To act as virtual memory when physical RAM is fully utilized", "To store temporary web files", "To accelerate CPU caching"], a: 1, exp: "Swap space is a dedicated disk partition used by the kernel to offload idle RAM pages when physical memory becomes full."},
+            {q: "What file configures how disk partitions are mounted automatically on boot?", o: ["/etc/fstab", "/etc/hosts", "/etc/mtab", "/boot/grub.cfg"], a: 0, exp: "The File System Table (/etc/fstab) maps disk UUIDs or device names to mount points, defining exactly how they should mount during boot."},
+            {q: "What advantage does 'rsync' have over a standard 'cp' command?", o: ["It formats drives automatically", "It uses delta transfers to only copy the modified parts of files, saving bandwidth", "It requires zero permissions", "It bypasses firewalls"], a: 1, exp: "rsync is highly efficient for backups because it checks file differences and only transfers the changed blocks over the network."},
+            {q: "What is the Linux OOM Killer?", o: ["A malware scanner", "An automatic kernel mechanism that terminates heavy processes when the system runs entirely out of memory", "A tool to delete old log files", "A hardware switch"], a: 1, exp: "The Out-Of-Memory (OOM) Killer prevents kernel panics by sacrificing a memory-heavy process when the system exhausts all RAM and Swap."},
+            {q: "How are resource limits (CPU, RAM) enforced for containers at the Linux kernel level?", o: ["Using iptables", "Through systemd-journald", "By utilizing Control Groups (cgroups)", "Using namespaces"], a: 2, exp: "cgroups (Control Groups) are a kernel feature that limits, accounts for, and isolates the resource usage of a collection of processes."},
+            {q: "How do you view binary system logs managed by systemd?", o: ["tail -f /var/log/messages", "journalctl", "cat /var/log/syslog", "dmesg"], a: 1, exp: "'journalctl' queries the systemd journal, allowing advanced filtering of binary logs by time, service, or priority."},
+            {q: "How do you test for bad sectors on a Linux hard drive?", o: ["Using the 'badblocks' command or checking SMART data via 'smartctl'", "Running 'fsck' constantly", "Formatting the drive with ext4", "Using the 'ping' command"], a: 0, exp: "'smartctl' reads hardware health data, while 'badblocks' physically scans the disk surface to locate unreadable sectors."},
+            {q: "What is the core difference between a process and a thread?", o: ["Threads share the same memory space as the parent; processes have isolated memory spaces", "Processes run faster than threads", "Threads are only for GUI applications", "Processes cannot be killed"], a: 0, exp: "A process gets its own distinct address space. Threads exist within a process and share its memory, making context switching lighter."},
+            {q: "How can you prevent a specific user from consuming all disk space?", o: ["Ban their SSH access", "Implement filesystem quotas using 'edquota'", "Change their home directory to /dev/null", "Delete their files daily via cron"], a: 1, exp: "Disk quotas allow administrators to set hard and soft limits on the amount of disk space or inodes a user or group can consume."},
+            {q: "What is the initramfs used for during the Linux boot process?", o: ["It acts as a permanent database", "It loads a temporary root filesystem to supply necessary drivers to mount the real root disk", "It configures the network IP addresses", "It runs the graphical desktop"], a: 1, exp: "initramfs gives the kernel the essential modules (like RAID or LVM drivers) needed to locate and mount the actual physical root filesystem."},
+            {q: "How do you run a script so it continues running even if your SSH session disconnects?", o: ["Run it as root", "Use 'nohup ./script.sh &' or a multiplexer like 'tmux'", "Put it in /etc/profile", "Append '.sh' to it"], a: 1, exp: "'nohup' prevents the HUP (hangup) signal from killing the process when the terminal closes. Tmux/Screen keeps the whole session alive."},
+            {q: "What happens if you run 'chmod 000 file.txt'?", o: ["It becomes an executable", "It gets deleted", "All read, write, and execute permissions are removed for everyone (including the owner)", "It gives full admin rights"], a: 2, exp: "Permissions are stripped completely. Note that the 'root' user can still override this and read or delete the file regardless."},
+            {q: "How do you check the history of system reboots?", o: ["last reboot", "history", "uptime", "dmesg"], a: 0, exp: "The 'last reboot' command parses the /var/log/wtmp file to show a historical list of all system reboots and shutdowns."},
+            {q: "What does the 'chroot' command actually do?", o: ["Changes root password", "Changes the apparent root directory for the current running process and its children", "Reinstalls the bootloader", "Formats the primary partition"], a: 1, exp: "chroot (change root) isolates a process in a specific directory, making it think that directory is the top-level root (/) of the filesystem."}
+        ],
+        azure: [
+            {q: "What is the main difference between Availability Sets and Availability Zones?", o: ["Sets protect against rack failures; Zones protect against entire datacenter failures", "Sets are for Linux, Zones for Windows", "Zones cost less than Sets", "Sets are global, Zones are local"], a: 0, exp: "Availability Sets distribute VMs across fault domains inside one datacenter. Zones are distinct physical datacenters within a region."},
+            {q: "How do you securely connect two different Azure VNets?", o: ["Expose them to the public internet", "Configure VNet Peering to use Microsoft's private backbone", "Use an external VPN provider", "Merge them into a single subnet"], a: 1, exp: "VNet Peering creates a seamless, low-latency private connection between two VNets using the Azure backbone infrastructure."},
+            {q: "Azure Application Gateway operates at which OSI layer?", o: ["Layer 3 (Network)", "Layer 4 (Transport)", "Layer 7 (Application)", "Layer 2 (Data Link)"], a: 2, exp: "App Gateway is a Layer 7 load balancer specifically designed for web traffic (HTTP/HTTPS), offering features like WAF and cookie affinity."},
+            {q: "What feature automatically adjusts the number of VM instances based on load?", o: ["Azure Load Balancer", "Azure Traffic Manager", "Virtual Machine Scale Sets (VMSS) with Autoscale", "Azure Logic Apps"], a: 2, exp: "VMSS allows you to create and manage a group of identical, load-balanced VMs that can automatically scale in or out based on metrics."},
+            {q: "What does Azure Private Link achieve?", o: ["Provides public IPs to storage accounts", "Exposes Azure PaaS services securely inside your private VNet without going over the internet", "Connects your local office to Azure via fiber", "Encrypts database backups"], a: 1, exp: "Private Link brings Azure services (like SQL or Storage) into your VNet by assigning them a private IP, completely eliminating public exposure."},
+            {q: "How do you automatically move older blob data to cheaper storage tiers?", o: ["Write a custom Python script", "Manually click 'move' every month", "Configure Azure Storage Lifecycle Management rules", "Use Azure Backup"], a: 2, exp: "Lifecycle policies automatically transition blobs to Cool, Cold, or Archive tiers, or delete them, based on rules like 'days since last modified'."},
+            {q: "How do you enforce that all resources in a subscription must have a 'CostCenter' tag?", o: ["Send an email to developers", "Deploy an Azure Policy enforcing the tag requirement", "Configure an NSG rule", "Use Azure Active Directory"], a: 1, exp: "Azure Policy enforces organizational standards and assesses compliance at scale, such as denying deployments that lack required tags."},
+            {q: "How do Azure RBAC permissions inherit?", o: ["They don't inherit at all", "Management Groups -> Subscriptions -> Resource Groups -> Resources", "Resources -> Subscriptions", "Only across distinct tenants"], a: 1, exp: "RBAC follows a top-down hierarchy. A role assigned at the Subscription level applies to all Resource Groups and resources inside it."},
+            {q: "Where is the best place to store database connection strings securely in Azure?", o: ["In the application source code", "In an Azure Key Vault", "In a public GitHub repo", "In a VM text file"], a: 1, exp: "Azure Key Vault securely stores and tightly controls access to tokens, passwords, certificates, and API keys."},
+            {q: "What is Geo-Redundant Storage (GRS)?", o: ["Data is replicated 3 times in one datacenter", "Data is synced synchronously across 3 zones", "Data is replicated to a secondary paired region hundreds of miles away", "Data is sent to AWS for backup"], a: 2, exp: "GRS protects against regional disasters by copying your data asynchronously to a secondary paired region."},
+            {q: "Which service orchestrates container deployments on Azure?", o: ["Azure App Service", "Azure Kubernetes Service (AKS)", "Azure Functions", "Azure Blob Storage"], a: 1, exp: "AKS is a managed Kubernetes service that simplifies deploying, managing, and scaling containerized applications."},
+            {q: "What does a Network Security Group (NSG) do?", o: ["Encrypts hard drives", "Filters inbound and outbound network traffic based on IP, port, and protocol", "Acts as a web application firewall", "Provides DNS resolution"], a: 1, exp: "NSGs act as virtual firewalls for your VNets, allowing or denying traffic to subnets or individual network interfaces."},
+            {q: "How can you securely RDP/SSH into a VM without exposing port 3389/22 to the internet?", o: ["Use Azure Bastion", "Open the port just for 5 minutes", "Use a public IP address", "Disable the VM firewall"], a: 0, exp: "Azure Bastion is a fully managed PaaS service that provides secure, seamless RDP/SSH access directly from the Azure portal over SSL."},
+            {q: "What is Azure Cosmos DB?", o: ["A standard relational SQL database", "A globally distributed, multi-model NoSQL database", "A file caching service", "A container registry"], a: 1, exp: "Cosmos DB offers single-digit millisecond response times and automatic multi-region replication for NoSQL data structures."},
+            {q: "How do you check who deleted a specific resource yesterday?", o: ["Check the VM event viewer", "Review the Azure Activity Log", "Ask Azure Support", "Check billing statements"], a: 1, exp: "The Activity Log provides insight into subscription-level events, showing exactly who performed what action and when."},
+            {q: "What is the primary function of Azure Advisor?", o: ["Writing code for your applications", "Evaluating resources to provide recommendations on cost, security, and performance", "Managing Active Directory users", "Monitoring on-premise hardware"], a: 1, exp: "Advisor acts as a personalized cloud consultant, analyzing your configurations to optimize deployments aligned with best practices."},
+            {q: "What is the difference between System-Assigned and User-Assigned Managed Identities?", o: ["System-assigned is tied to a specific resource's lifecycle; User-assigned is standalone and can be shared", "User-assigned is for humans, System-assigned is for bots", "System-assigned requires passwords", "There is no difference"], a: 0, exp: "When a resource with a system-assigned identity is deleted, the identity is also deleted. User-assigned identities persist independently."},
+            {q: "What is Azure Log Analytics used for?", o: ["To host static websites", "As a centralized repository to collect, aggregate, and query log data using KQL", "To manage software licenses", "To route network traffic"], a: 1, exp: "Log Analytics workspaces collect telemetry from Azure resources and allow deep querying and alerting using the Kusto Query Language (KQL)."},
+            {q: "Why might you be unable to delete a Resource Group?", o: ["Your internet is slow", "A Resource Lock (CanNotDelete) is applied to the group or a resource inside it", "You need to pay your bill first", "Resource groups are permanent"], a: 1, exp: "Resource Locks prevent accidental deletion or modification of critical resources, regardless of the user's RBAC permissions."},
+            {q: "What is Azure ExpressRoute?", o: ["A fast internet connection", "A private, dedicated physical connection bypassing the public internet to Azure", "A CDN edge node", "A fast VM disk type"], a: 1, exp: "ExpressRoute provides highly reliable and fast private connections via a connectivity provider, ideal for enterprise hybrid clouds."},
+            {q: "How does a Shared Access Signature (SAS) token secure Storage?", o: ["It blocks all access", "It encrypts the data", "It grants limited, timed permissions without exposing the master account key", "It requires MFA verification"], a: 2, exp: "SAS tokens allow you to give granular, time-bound access (like read-only for 1 hour) to a specific blob or container safely."},
+            {q: "What is the purpose of an Azure NAT Gateway?", o: ["To balance incoming web traffic", "To allow outbound internet connectivity for subnets without using public IPs on VMs", "To connect on-premise VPNs", "To translate domain names"], a: 1, exp: "NAT Gateway simplifies outbound-only internet connectivity for one or more subnets, using a static public IP address for external systems to whitelist."},
+            {q: "When would you choose Azure Container Instances (ACI) over AKS?", o: ["When you need complex orchestration", "When you want fast, serverless container execution without managing cluster nodes", "When you have 1000 microservices", "For heavy stateful databases"], a: 1, exp: "ACI is perfect for simple workloads, batch jobs, or testing where you just want to run a container quickly without K8s overhead."},
+            {q: "How can you block traffic from a specific country to your web app?", o: ["Delete the public IP", "Use Custom Route Tables", "Configure Geo-filtering rules in Azure Web Application Firewall (WAF)", "Shutdown the VM at night"], a: 2, exp: "WAF on Front Door or App Gateway allows you to create custom rules, including blocking or allowing traffic based on geographic location."},
+            {q: "What is the concept of 'Cloud Elasticity' in Azure?", o: ["The ability to stretch network cables", "The automatic capability to scale resources up or down dynamically based on workload demand", "Using SSDs instead of HDDs", "Fixing broken code automatically"], a: 1, exp: "Elasticity ensures you only pay for what you need by rapidly provisioning resources during spikes and de-provisioning them when demand drops."}
+        ],
+        lz: [
+            {q: "What is an Azure Landing Zone?", o: ["A temporary holding area for data", "A pre-configured, scalable environment with governance, networking, and identity controls built-in", "A single VM for testing", "A specific region in Europe"], a: 1, exp: "A Landing Zone provides the foundational architecture required to securely adopt and scale cloud workloads in an enterprise."},
+            {q: "What does the Hub-and-Spoke topology achieve?", o: ["Centralizes shared services (Hub) like firewalls, while isolating workloads (Spokes)", "Mixes all resources into one flat network", "Removes the need for subnets", "Connects Azure to AWS automatically"], a: 0, exp: "Hub-and-spoke isolates application workloads in separate spoke VNets while sharing centralized connectivity and security services in the hub."},
+            {q: "Why are Management Groups important in an enterprise?", o: ["They manage employee payroll", "They group resources by tags", "They organize subscriptions hierarchically to apply policies and RBAC efficiently at scale", "They automatically reduce cloud costs"], a: 2, exp: "Instead of applying policies to 50 individual subscriptions, you apply them to a Management Group, and all underlying subscriptions inherit them."},
+            {q: "What is placed in the 'Connectivity' Subscription?", o: ["Database backups", "Core networking assets like Azure Firewall, ExpressRoute, and the Hub VNet", "Developer testing apps", "Active Directory users"], a: 1, exp: "Separating connectivity assets into a dedicated subscription ensures network engineers have full control while limiting blast radius."},
+            {q: "What is the purpose of the 'Identity' Subscription?", o: ["Hosting the company website", "Isolating domain controllers and identity sync agents from general workloads", "Running CI/CD pipelines", "Storing application code"], a: 1, exp: "Identity is the security perimeter. Keeping Active Directory and Key Vaults in an isolated subscription protects them from application developers."},
+            {q: "What is 'Policy-driven Governance'?", o: ["Asking managers for permission", "Using Azure Policy to automatically block non-compliant deployments (guardrails)", "Manually auditing resources monthly", "Using only open-source software"], a: 1, exp: "Instead of reactive manual audits, Azure Policy acts proactively to prevent users from creating resources that violate corporate rules."},
+            {q: "What is the function of the 'Sandbox' Management Group?", o: ["Running production databases", "A controlled, isolated environment for developers to experiment without affecting production", "Storing decommissioned assets", "A honeypot for hackers"], a: 1, exp: "Sandbox environments allow innovation. They typically have looser restrictions but are completely disconnected from corporate networks."},
+            {q: "How does a Landing Zone handle private DNS?", o: ["It doesn't use DNS", "By hardcoding IP addresses", "Utilizing centralized Azure Private DNS Zones linked to the Hub and Spoke VNets", "Sending all requests to Google DNS"], a: 2, exp: "Centralized Private DNS allows all spoke networks to resolve internal endpoints consistently without deploying custom DNS servers everywhere."},
+            {q: "What does 'Subscription Democratization' mean?", o: ["Giving everyone global admin rights", "Using subscriptions as a unit of scale, giving app teams autonomy within central guardrails", "Voting on cloud features", "Removing all security policies"], a: 1, exp: "It empowers teams by giving them their own subscriptions to manage, while central IT ensures safety via Management Group policies."},
+            {q: "What is the Well-Architected Framework?", o: ["A tool to compile C# code", "A physical building design guide", "A set of guiding tenets (Cost, Security, Reliability, Performance, Ops) to improve workloads", "An automated deployment script"], a: 2, exp: "Microsoft's framework provides best practices and assessments to ensure cloud architectures are robust and efficient."},
+            {q: "How are baseline security policies applied instantly?", o: ["By emailing the security team", "Automated deployments assign Azure Policies directly to Management Groups during setup", "By manually clicking in the portal", "They are built into Windows"], a: 1, exp: "Using Infrastructure as Code (like Bicep or Terraform), Landing Zones automatically deploy policy definitions so governance is active immediately."},
+            {q: "What is a 'Guardrail' in Cloud Governance?", o: ["A physical fence around the server", "Automated rules that prevent dangerous actions while keeping developers productive", "A limit on network speed", "A backup storage account"], a: 1, exp: "Like bumpers in a bowling alley, guardrails (Azure Policy) keep developers safe without requiring them to wait for manual approvals."},
+            {q: "Why use a 'Decommissioned' Management Group?", o: ["To park subscriptions before final deletion, ensuring policies strip access and prevent charges", "To run legacy Windows 95 apps", "To store test code", "To host external vendor apps"], a: 0, exp: "Moving a subscription to 'Decommissioned' applies policies that block new deployments and isolate the environment before the final wipe."},
+            {q: "How should two Spokes communicate if they need low latency?", o: ["Route out to the internet and back", "Use VNet Peering directly between them if allowed by security policy", "Copy data via USB", "Use a storage account as a middleman"], a: 1, exp: "While traffic often flows through the hub firewall for inspection, direct VNet Peering between spokes offers the lowest latency for trusted apps."},
+            {q: "Why deploy Landing Zones using Infrastructure as Code (IaC)?", o: ["It's cheaper", "It ensures environments are repeatable, auditable, and free from human click-errors", "It bypasses Microsoft limits", "It eliminates the need for networking"], a: 1, exp: "IaC tools like Terraform or Bicep guarantee that your complex landing zone is deployed identically every time, and changes are tracked in Git."},
+            {q: "What sits in the 'Corp' Management Group?", o: ["Public facing websites only", "Subscriptions for internal workloads that require connectivity back to on-premise networks", "Sandbox environments", "Decommissioned apps"], a: 1, exp: "'Corp' apps usually require ExpressRoute/VPN access to on-premise databases and follow strict internal routing policies."},
+            {q: "What is Azure Lighthouse used for?", o: ["Lighting up datacenters", "Providing cross-tenant management and visibility for managed service providers or large enterprises", "A serverless container platform", "A database monitoring tool"], a: 1, exp: "Lighthouse allows service providers to securely manage resources across multiple customer Azure Active Directory tenants from a single portal."},
+            {q: "How does the 'Online' Management Group differ from 'Corp'?", o: ["'Online' has no internet access", "'Online' hosts public-facing apps; 'Corp' hosts internal-only apps", "'Online' is for video games", "There is no difference"], a: 1, exp: "'Online' workloads are typically exposed directly to the public internet and don't need a direct private route back to corporate on-premise networks."},
+            {q: "How do Landing Zones scale?", o: ["By upgrading a single VM to maximum size", "By adding new Subscriptions (scale-out) rather than growing a single massive subscription", "By changing to a new cloud provider", "By removing governance policies"], a: 1, exp: "Azure has subscription-level resource limits. Enterprise-Scale architecture uses subscriptions as the primary unit of scaling to avoid hitting limits."},
+            {q: "What is a Cloud Center of Excellence (CCoE)?", o: ["A physical office building", "A cross-functional team defining governance, best practices, and guiding cloud adoption", "An automated AI bot", "A new Azure service"], a: 1, exp: "A CCoE aligns business and IT, ensuring the organization adopts the cloud securely, efficiently, and with standardized patterns."},
+            {q: "How are ExpressRoute circuits usually managed in a Landing Zone?", o: ["Every app creates its own", "They are completely avoided", "Centralized in the Connectivity subscription to be shared across all spokes", "Stored in the Identity subscription"], a: 2, exp: "ExpressRoute is an expensive, core networking asset. Centralizing it in the Hub allows all Spoke workloads to share the connection efficiently."},
+            {q: "What does an Azure Policy 'Deny' effect do?", o: ["Flags a warning in an audit report", "Blocks the creation or modification of a resource if it violates the defined rule", "Deletes existing resources automatically", "Stops the VM from booting"], a: 1, exp: "The 'Deny' effect is a hard guardrail. It intercepts the API request and blocks it before the non-compliant resource can even be created."},
+            {q: "Application Landing Zone vs Platform Landing Zone?", o: ["Platform zones provide shared services (network/identity); App zones host the actual business workloads", "They are exactly the same", "Platform zones run Linux, App zones run Windows", "App zones are physical, Platform zones are virtual"], a: 0, exp: "Platform zones (Hub) provide the foundation. App zones (Spokes) sit on top of that foundation to run specific developer applications."},
+            {q: "How do you track cloud costs by department in a Landing Zone?", o: ["Guess based on VM names", "Wait for the annual bill", "Use Azure Policy to enforce mandatory billing tags (like CostCenter) on all resources", "Put each department on a different cloud provider"], a: 2, exp: "Mandatory tagging ensures every single resource is tied to a billing code, making cost allocation in Azure Cost Management simple and accurate."},
+            {q: "How does a Landing Zone handle outbound internet access?", o: ["Every VM gets a public IP", "Outbound traffic routes through a secure, centralized Azure Firewall or NAT Gateway in the Hub", "Outbound access is permanently blocked", "Through the on-premise proxy server only"], a: 1, exp: "Centralized egress through Azure Firewall ensures all outbound traffic is logged, inspected, and restricted by FQDN rules to prevent data exfiltration."}
+        ],
+        cicd: [
+            {q: "What is the main difference between Continuous Delivery and Deployment?", o: ["Delivery is automated, Deployment is manual", "Delivery stops before production for manual approval; Deployment pushes to production automatically", "They are identical terms", "Delivery applies to hardware"], a: 1, exp: "In Continuous Delivery, code is ready to deploy anytime but requires a human to click 'approve'. Continuous Deployment pushes completely automatically."},
+            {q: "What is a Webhook?", o: ["A malware attack", "An HTTP callback triggered by an event (like a git push) that starts a pipeline", "A secure storage vault", "A type of database index"], a: 1, exp: "Webhooks allow systems (like GitHub) to instantly notify other systems (like Jenkins) that an event occurred, triggering automated workflows."},
+            {q: "Difference between SAST and DAST?", o: ["SAST analyzes static source code; DAST tests the live running application", "SAST is for network, DAST is for storage", "DAST requires no internet, SAST requires cloud", "SAST is manual, DAST is automated"], a: 0, exp: "Static Application Security Testing (SAST) finds flaws in the code itself. Dynamic Application Security Testing (DAST) attacks the app from the outside like a hacker."},
+            {q: "What is an Artifact Repository (like Nexus or Artifactory)?", o: ["A place to store old emails", "A secure system that stores versioned, immutable build outputs (like docker images or .jar files)", "A tool to write code", "A backup for the state file"], a: 1, exp: "Once code is compiled and built, the resulting 'artifact' is stored in a repository so it can be deployed consistently across environments."},
+            {q: "How does Blue-Green deployment work?", o: ["It randomly shuts down servers to test resilience", "It maintains two identical environments; updates the idle one, then switches live traffic over instantly", "It deploys code line by line", "It changes the UI colors for A/B testing"], a: 1, exp: "Blue-Green ensures zero downtime. If the new 'Green' environment fails after switching traffic, you simply switch the router back to 'Blue'."},
+            {q: "What is a Canary Deployment?", o: ["Replacing the whole app at midnight", "Deploying a bird tracking software", "Releasing an update to a small subset of users (e.g., 5%) to monitor errors before a full rollout", "Testing exclusively in a local environment"], a: 2, exp: "Canary deployments limit the blast radius. If the 5% of users experience crashes, you roll back before the other 95% are affected."},
+            {q: "What does 'Pipeline as Code' mean?", o: ["Writing CI/CD steps in a version-controlled text file (like YAML) rather than clicking in a GUI", "Using a pipeline to compile C++", "Storing code inside a database pipeline", "Auto-generating code using AI"], a: 0, exp: "Tools like GitHub Actions or Jenkinsfile allow you to define the pipeline in code, making it versionable, reviewable, and repeatable."},
+            {q: "How should you handle API keys in a pipeline?", o: ["Hardcode them in the script", "Print them to the console for debugging", "Store them in a Secret Manager and inject them as masked environment variables at runtime", "Commit them in a text file"], a: 2, exp: "Secrets should never exist in plaintext. Secret managers inject them into the runner securely, and CI tools mask them in logs."},
+            {q: "Why use a Self-Hosted Runner instead of a Cloud-Hosted one?", o: ["It's always slower", "When you need to access private internal networks or require specialized hardware dependencies", "Because it is completely free of maintenance", "To avoid using Git"], a: 1, exp: "Self-hosted runners live inside your VPC. They are necessary when deployment targets are blocked from the public internet."},
+            {q: "What does SonarQube do in a pipeline?", o: ["Compiles Java code", "Analyzes code quality, tracks technical debt, and enforces quality gates", "Deploys containers to Kubernetes", "Hosts DNS records"], a: 1, exp: "SonarQube performs static analysis to find bugs, vulnerabilities, and code smells, failing the pipeline if standards aren't met."},
+            {q: "What is the 'Fail Fast' principle?", o: ["Ignoring errors to finish quickly", "Placing the fastest, most critical checks (like linting) first to catch errors immediately and save time", "Deleting the code if it fails", "Bypassing unit tests"], a: 1, exp: "Why wait 30 minutes for a heavy integration test to fail when a 2-second syntax linter could have caught a missing semicolon at the start?"},
+            {q: "How do you automate a rollback?", o: ["Delete the database", "Manually rewrite the old code", "Configure alerts to trigger a script that redeploys the previous stable artifact if metrics fail", "Turn off the server"], a: 2, exp: "Modern CI/CD tools can monitor health metrics post-deployment and automatically trigger a pipeline to revert to the last known good image."},
+            {q: "What is a Matrix Build?", o: ["A green screen terminal", "Running the same pipeline concurrently across multiple combinations of OS or language versions", "Building a complex database schema", "An encrypted build process"], a: 1, exp: "Matrix builds test your code against multiple environments at once (e.g., Python 3.8, 3.9 on Ubuntu and Windows) saving massive time."},
+            {q: "What does Idempotency mean for deployment scripts?", o: ["The script can run 100 times and result in the exact same safe state without causing errors", "The script runs incredibly fast", "The script deletes everything first", "The script uses randomized variables"], a: 0, exp: "Idempotent operations only apply changes if necessary. If the server is already configured, running the script again does nothing."},
+            {q: "What is a CDN Invalidation step?", o: ["Deleting user accounts", "Clearing cached old files from edge servers so users immediately see the new deployment", "Validating passwords", "Checking for broken links"], a: 1, exp: "When you update a static website, the old files might still be cached globally. Invalidation forces the CDN to fetch the new files."},
+            {q: "What is a 'Quality Gate'?", o: ["A firewall rule", "Automated conditions (like 80% code coverage) that code must pass to continue the pipeline", "A manual testing team", "A billing threshold"], a: 1, exp: "Quality gates automatically block bad code from reaching production, ensuring standards are maintained without human intervention."},
+            {q: "Why cache dependencies (like node_modules) in CI/CD?", o: ["To hide code from developers", "To skip running unit tests", "To reuse downloaded libraries from previous runs, significantly speeding up build times", "To compress the final image"], a: 2, exp: "Downloading dependencies over the internet takes time. Caching stores them locally for the runner to reuse in the next execution."},
+            {q: "What is a 'Build Trigger'?", o: ["The person who clicked deploy", "An event (commit, cron schedule, PR merge) that tells the pipeline to start running", "A compiling error", "A database lock"], a: 1, exp: "Triggers define *when* the automation runs. It could be fully automated (on git push) or scheduled (nightly at 2 AM)."},
+            {q: "What is GitOps?", o: ["Using Git as the single source of truth for declarative infrastructure and application deployments", "A specific command line tool", "Deleting Git history", "Using Git without branches"], a: 0, exp: "In GitOps, if you want to change production, you update the Git repository. An agent inside the cluster detects the change and syncs it automatically."},
+            {q: "How should database schemas be managed in CI/CD?", o: ["Manually update the DB via UI", "Use versioned migration scripts (like Flyway/Liquibase) executed automatically before code updates", "Delete and recreate the DB every time", "Ignore the database"], a: 1, exp: "Migration tools track which SQL scripts have run. During deployment, the pipeline automatically applies only the new, un-run scripts."},
+            {q: "What is a Chained Pipeline?", o: ["A pipeline that connects to AWS", "When the successful completion of one pipeline automatically triggers a downstream pipeline", "A pipeline running in a loop", "A secure encrypted tunnel"], a: 1, exp: "For microservices, building a shared library pipeline might chain into triggering builds for the 5 different apps that depend on it."},
+            {q: "What does a Linter do?", o: ["Deploys code", "Scans source code for stylistic errors, bugs, and formatting issues before compiling", "Creates virtual machines", "Manages passwords"], a: 1, exp: "Linting ensures all developers follow the same coding standards and catches basic typos early in the CI process."},
+            {q: "How do you enforce step order in YAML pipelines?", o: ["Alphabetical naming", "Using dependency keywords like 'needs', 'depends_on', or grouping into sequential 'stages'", "Putting spaces between lines", "They always run randomly"], a: 1, exp: "Defining dependencies ensures the 'Deploy' job waits until the 'Test' job finishes successfully before it starts."},
+            {q: "What is 'Configuration Drift'?", o: ["Moving servers physically", "When production environments deviate from version control due to manual, untracked changes", "A network routing protocol", "Changing variables in a loop"], a: 1, exp: "If someone SSHs into a server and changes a file, that server 'drifted' from the IaC code. Next deployment might overwrite or break it."},
+            {q: "What is the DORA metrics framework?", o: ["A database schema model", "A standard measuring DevOps performance: Deployment Frequency, Lead Time, MTTR, Change Failure Rate", "A security compliance audit", "A pricing calculator for cloud"], a: 1, exp: "DORA metrics are the industry standard for evaluating how effectively a software team delivers value and maintains stability."}
+        ],
+        git: [
+            {q: "What is the difference between 'git fetch' and 'git pull'?", o: ["'pull' uploads code, 'fetch' downloads", "Both do the exact same thing", "'fetch' downloads remote changes but doesn't merge them; 'pull' downloads and immediately merges", "'fetch' deletes local branches"], a: 2, exp: "Fetch is safe; it updates your local tracking branches. Pull is fetch + merge, which might cause immediate merge conflicts in your workspace."},
+            {q: "What does Git Rebase do?", o: ["Deletes all commit history", "Uploads code to an external server", "Combines branches but maintains strict alphabetical order", "Rewrites commit history by moving a branch's base to a new starting commit"], a: 3, exp: "Rebase creates a clean, linear history by re-applying your commits on top of the latest changes from the main branch."},
+            {q: "How do you resolve a Merge Conflict?", o: ["Delete the whole repository and clone again", "Open conflicting files, manually edit the text between the conflict markers, save, add, and commit", "Run git reset --hard immediately", "Turn off the internet connection"], a: 1, exp: "Git inserts markers (<<<< === >>>>) where code clashes. You must manually decide which code to keep, remove the markers, and commit."},
+            {q: "What is the purpose of 'git stash'?", o: ["To permanently delete files", "To save uncommitted changes temporarily for a clean workspace, allowing you to restore them later", "To encrypt the repository", "To upload files to AWS S3"], a: 1, exp: "If you are halfway through a feature and need to switch branches quickly to fix a bug, 'stash' parks your work safely without committing."},
+            {q: "What does the HEAD pointer indicate?", o: ["The root admin user", "The very first commit ever made", "Your current active branch and the latest commit you are working on", "The remote server address"], a: 2, exp: "HEAD is simply a reference to the currently checked-out commit. If you switch branches, HEAD moves to point to that branch."},
+            {q: "Why is 'git push --force' dangerous on shared branches?", o: ["It costs extra money", "It can overwrite and permanently erase remote commits pushed by other team members", "It locks the repository for 24 hours", "It changes the repository name"], a: 1, exp: "Force pushing overwrites the remote history with your local history. If someone else pushed work in the meantime, it gets destroyed."},
+            {q: "What does the .gitignore file do?", o: ["Lists deliberate untracked files/folders (like logs or secrets) that Git should never track", "Blocks specific users from contributing", "Automatically deletes old code", "Encrypts the remote connection"], a: 0, exp: "Placing filenames or extensions in .gitignore prevents them from accidentally being added to version control (e.g., node_modules/)."},
+            {q: "What does 'git cherry-pick' achieve?", o: ["Selects a random commit to delete", "Copies the exact changes from one specific historical commit and applies them to your current branch", "Changes the color of the terminal", "Downloads a specific file from GitHub"], a: 1, exp: "Cherry-picking is useful if a bug fix was made on the wrong branch and you need to apply just that one commit to the correct branch."},
+            {q: "How does Git differ from centralized systems like SVN?", o: ["Git is distributed; every developer has a full local copy of the entire repository history", "Git requires continuous internet", "Git only stores the latest file versions", "Git cannot handle branches"], a: 0, exp: "In Git, operations like committing, branching, and logging are done locally without needing to contact a central server."},
+            {q: "How do you safely undo a commit already pushed to a public branch?", o: ["git reset --hard", "Use 'git revert <commit>', which creates a new commit that applies the inverse of the changes", "Delete the .git folder", "Email the admin to delete it"], a: 1, exp: "Using 'revert' is safe for shared history because it doesn't rewrite the past; it just adds a new commit that undoes the mistake."},
+            {q: "What is 'git reflog' used for?", o: ["Reviewing performance metrics", "Tracking every single local movement of the HEAD pointer, acting as a safety net to recover lost commits", "Formatting the code syntax", "Deleting old branches"], a: 1, exp: "Even if you do a hard reset and 'lose' a commit, the reflog maintains a local journal of where HEAD has been for 30 days."},
+            {q: "What does 'git commit --amend' do?", o: ["Modifies the very last commit, allowing you to add forgotten files or fix the commit message", "Merges two branches together", "Reverts all changes", "Pushes code to the server"], a: 0, exp: "Amend replaces the latest commit with a new one. It is highly useful for fixing typos before you push to a remote."},
+            {q: "What is a Pull Request (PR)?", o: ["A command line tool to pull data", "A server crash", "A platform feature where developers propose changes, review code, and approve merges", "A physical network request"], a: 2, exp: "PRs (or Merge Requests) are the cornerstone of collaboration, allowing peers to review and discuss code before it hits the main branch."},
+            {q: "How do you delete a remote branch?", o: ["git branch -d remote", "git push origin --delete <branch_name>", "git rm branch", "Delete the folder on your hard drive"], a: 1, exp: "You must explicitly tell the remote server (origin) to delete the branch reference using the push --delete syntax."},
+            {q: "What is a 'Detached HEAD' state?", o: ["When the git software crashes", "When you check out a specific historical commit directly instead of an active branch name", "When the remote server is down", "When you forget to add a commit message"], a: 1, exp: "In this state, any new commits you make won't belong to any branch and will be orphaned when you switch away."},
+            {q: "What is the 'Git Flow' model?", o: ["An automated deployment tool", "A network protocol", "A strict branching strategy using dedicated branches (main, develop, feature, hotfix) for structured releases", "A visual UI client"], a: 2, exp: "Git Flow provides a rigid framework ensuring production code is stable, development happens in isolation, and hotfixes bypass normal queues."},
+            {q: "How can you find the exact commit that introduced a bug?", o: ["Read every commit manually", "Use 'git bisect' to perform a binary search through history, testing commits until the bad one is found", "Run a python script", "Ask the team manager"], a: 1, exp: "Git bisect dramatically reduces debugging time by cutting the commit history in half repeatedly until it pinpoints the broken commit."},
+            {q: "What does 'git diff' display?", o: ["The file size differences", "A list of developers", "The line-by-line code modifications between your working directory, staging, or commits", "The network speed"], a: 2, exp: "Diff shows exact additions (green +) and deletions (red -) made to the text files."},
+            {q: "What is a Fast-Forward merge?", o: ["A merge that skips CI/CD", "When the target branch hasn't diverged, Git just moves the pointer forward without creating a merge commit", "A merge that ignores conflicts automatically", "Uploading code at high speed"], a: 1, exp: "If main hasn't changed since you branched off, Git simply slides main up to your feature's latest commit (fast-forward)."},
+            {q: "What is the difference between staging ('add') and committing?", o: ["They are the same thing", "Staging prepares/groups specific files; committing saves that exact snapshot to history", "Staging uploads to cloud, committing saves locally", "Staging removes syntax errors"], a: 1, exp: "The staging area (index) lets you carefully curate what goes into your next commit, separating messy workspaces from clean history."},
+            {q: "What does 'Squash and Merge' do?", o: ["Compresses image files in the repo", "Deletes the repository", "Combines all individual commits from a feature branch into a single, clean commit on the destination branch", "Zips the codebase"], a: 2, exp: "Squashing keeps the main branch history incredibly clean by hiding the 50 messy 'WIP' commits from the feature branch into one solid feature commit."},
+            {q: "How do you see who wrote a specific line of code?", o: ["git blame <filename>", "git whoami", "git author", "git check"], a: 0, exp: "Git blame annotates each line of a file with the commit hash, date, and author name of the person who last modified it."},
+            {q: "What are Git Tags used for?", o: ["Categorizing developer skills", "Applying syntax highlighting", "Marking specific, immutable points in history, universally used for release versions (e.g., v2.1.0)", "Assigning tickets"], a: 2, exp: "Unlike branches that move, tags are permanent pointers to a specific commit, perfect for marking production releases."},
+            {q: "What is a Git Hook?", o: ["A phishing attack", "A custom script that runs automatically before/after Git events (like blocking a commit if tests fail)", "A cloud integration link", "A physical security key"], a: 1, exp: "Hooks (like pre-commit) are powerful tools to enforce local linting, formatting, or commit message standards before code is even saved."},
+            {q: "Difference between a Fork and a Branch?", o: ["No difference", "Forks cost money, Branches are free", "A Fork is a full server-side copy under a different user/org; a Branch is an isolated line inside one repo", "Forks run locally, Branches run in cloud"], a: 2, exp: "Forking is used for open-source contributions across different organizations. Branching is used by a team collaborating within the same repository."}
+        ],
+        docker: [
+            {q: "How does a Container fundamentally differ from a Virtual Machine?", o: ["Containers require Windows OS", "VMs run directly on hardware, containers use a hypervisor", "Containers share the host OS kernel and are lightweight; VMs run a full guest OS on a hypervisor", "Containers only run web apps"], a: 2, exp: "Containers don't need a heavy guest OS. They leverage the host kernel, making them boot in milliseconds and use minimal memory."},
+            {q: "CMD vs ENTRYPOINT in a Dockerfile?", o: ["CMD sets the base image, ENTRYPOINT sets variables", "ENTRYPOINT sets the fixed binary to execute; CMD provides default arguments that are easily overridden", "They are completely interchangeable", "CMD runs at build time, ENTRYPOINT runs at runtime"], a: 1, exp: "Use ENTRYPOINT for the main executable (e.g., 'nginx'). Use CMD for default flags (e.g., '-g daemon off') so users can override them easily."},
+            {q: "What is a Docker Multi-Stage build?", o: ["Building 5 containers at once", "Deploying to multiple cloud regions", "Using multiple FROM statements to compile code, then copying only the final binary into a small, clean runtime image", "A method for clustering containers"], a: 2, exp: "Multi-stage builds eliminate heavy build tools (like compilers) from the final production image, drastically reducing size and attack surface."},
+            {q: "How do you persist database data when a container is destroyed?", o: ["Save it in the container's root folder", "Configure Docker Volumes or Bind Mounts to store data on the host machine outside the container lifecycle", "Use a memory cache", "Rebuild the image hourly"], a: 1, exp: "Containers are ephemeral. Any data written inside them disappears on deletion. Volumes safely store data directly on the host disk."},
+            {q: "What Linux kernel features provide container isolation?", o: ["iptables and routes", "SELinux and AppArmor", "Namespaces (isolate workspaces) and cgroups (limit resource usage)", "Systemd and Init"], a: 2, exp: "Namespaces trick the container into thinking it has its own private OS. Control Groups (cgroups) cap how much CPU/RAM it can consume."},
+            {q: "Difference between 'docker stop' and 'docker kill'?", o: ["'stop' deletes the image, 'kill' deletes the container", "'stop' sends a graceful SIGTERM then SIGKILL; 'kill' sends an instant, forceful SIGKILL", "Both are exactly the same", "'kill' formats the host drive"], a: 1, exp: "'stop' gives the application time to save data and close connections gracefully (usually 10 seconds). 'kill' pulls the plug immediately."},
+            {q: "What is Docker Compose used for?", o: ["Writing Java code", "Defining and running complex multi-container applications locally using a single YAML file", "Connecting Docker to Kubernetes", "Monitoring CPU temps"], a: 1, exp: "Compose allows you to spin up a web server, a database, and a cache container all linked together with one command: 'docker-compose up'."},
+            {q: "How do you monitor live container resource usage (CPU/RAM)?", o: ["docker system df", "docker top", "docker stats", "docker inspect"], a: 2, exp: "The 'docker stats' command provides a live, continuously updating terminal dashboard showing CPU, memory, network, and disk I/O per container."},
+            {q: "How do you optimize a Dockerfile to leverage layer caching?", o: ["Put everything on one line", "Place frequently changing commands (like copying source code) at the very bottom, and static installs at the top", "Delete all comments", "Use Ubuntu base images exclusively"], a: 1, exp: "Docker caches each line. If a line changes, all subsequent lines must rebuild. Installing packages early saves massive build time."},
+            {q: "What does '--network=host' do?", o: ["Restricts all network access", "Removes network isolation, letting the container use the host machine's network interfaces directly", "Connects to a remote cloud VPN", "Encrypts all traffic"], a: 1, exp: "In host mode, port 80 inside the container is literally port 80 on the host machine. It offers max performance but zero isolation."},
+            {q: "How do you debug a container that crashes instantly on startup?", o: ["Delete the server", "Check 'docker logs <id>' or override the entrypoint to '/bin/sh' to explore the filesystem interactively", "Increase the RAM to 64GB", "Change the base image to Windows"], a: 1, exp: "Logs often show the crash reason. If not, overriding the entrypoint lets you enter the container without starting the broken app."},
+            {q: "What does the .dockerignore file do?", o: ["Ignores error messages", "Excludes heavy/unnecessary local files (like node_modules or secret keys) from being sent to the Docker build context", "Blocks network ports", "Disables layer caching"], a: 1, exp: "Sending huge folders to the Docker daemon slows down builds. .dockerignore ensures only necessary source code is copied."},
+            {q: "Image vs Container?", o: ["They are synonyms", "An Image is a running process; a Container is a static file", "An Image is a read-only blueprint template; a Container is a live, running instance of that blueprint", "Images are for Linux, Containers for Windows"], a: 2, exp: "You build an Image once. You can spin up 100 identical Containers from that single Image template."},
+            {q: "How do you upload a local image to Docker Hub?", o: ["docker export", "Tag the image with your repo name, log in, and execute 'docker push'", "FTP transfer the tar file", "Commit it to GitHub"], a: 1, exp: "You must tag it appropriately (username/appname:version) and push it, which uploads the layers to the remote registry."},
+            {q: "Why is running a container app as 'root' dangerous?", o: ["It slows down the CPU", "If a hacker compromises the app, a container escape vulnerability could give them root access to the entire host machine", "It consumes too much disk space", "Docker prevents it automatically"], a: 1, exp: "Always create a dedicated low-privileged user inside the Dockerfile and use the 'USER' directive before running the main application."},
+            {q: "What is a 'dangling image' and how do you remove it?", o: ["A corrupted running container", "An untagged, orphaned image layer left over after an update; removed safely via 'docker image prune'", "An image connected to the internet", "An encrypted backup file"], a: 1, exp: "When you rebuild an image with the same tag, the old layers lose their tag (shown as <none>). Pruning reclaims lost disk space."},
+            {q: "Does the EXPOSE instruction actually publish a port?", o: ["Yes, to the entire internet", "No, it acts only as documentation. You must map it at runtime using the '-p' flag", "Yes, but only locally", "It closes the port instead"], a: 1, exp: "EXPOSE is metadata for developers to know which ports the app listens on. Actual port forwarding requires '-p 8080:80' at runtime."},
+            {q: "What is the default Docker network driver?", o: ["macvlan", "overlay", "bridge", "ipvlan"], a: 2, exp: "The 'bridge' driver creates a private internal network on the host, allowing isolated containers to communicate via IP addresses."},
+            {q: "How do you securely pass a database password into a container?", o: ["Hardcode it in the Dockerfile", "Use runtime Environment Variables or a secrets manager, never hardcoding them in the image", "Bake it into the source code", "Upload it to public metadata"], a: 1, exp: "Passing secrets via '-e DB_PASS=secret' at runtime ensures the image remains clean and safe to share or store in registries."},
+            {q: "What happens if a container exceeds its hard memory limit?", o: ["It scales up the host RAM", "It pauses execution temporarily", "The host kernel's OOM Killer forcefully terminates the container process to protect the system", "It starts writing to the network"], a: 2, exp: "Setting memory limits prevents a single rogue container with a memory leak from crashing the entire host server."},
+            {q: "What does 'docker run -d -p 8080:80 nginx' do?", o: ["Deletes Nginx", "Downloads Nginx but doesn't run it", "Runs Nginx in detached (background) mode, mapping host port 8080 to container port 80", "Runs Nginx interactively on port 80"], a: 2, exp: "The '-d' flag runs it in the background, freeing your terminal. '-p' routes external traffic hitting 8080 into the container's port 80."},
+            {q: "Why use 'tini' as an init process in a container?", o: ["To download packages faster", "To act as PID 1 to reap zombie processes and correctly pass signals (like SIGTERM) to the app", "To compress the image size", "To provide a GUI terminal"], a: 1, exp: "Many applications don't handle Linux signals properly when run as PID 1. Tini is a lightweight wrapper that solves these signal/zombie issues."},
+            {q: "How do you copy a file out of a running container?", o: ["FTP connection", "SSH into the container and email it", "Use 'docker cp <container_id>:/path/to/file ./local/path'", "It is impossible"], a: 2, exp: "The 'docker cp' command allows seamless extraction or insertion of files into a running container's filesystem from the host."},
+            {q: "What is the function of a Container Registry?", o: ["A database for user accounts", "A centralized, stateless server that stores, organizes, and distributes container images", "A tool to compile C code", "A firewall for containers"], a: 1, exp: "Registries (like Docker Hub, ACR, ECR) act as the central library where CI/CD pipelines push built images, and servers pull them to run."},
+            {q: "Why are Alpine-based images popular?", o: ["They support Windows apps", "They are incredibly small (around 5MB) providing a fast, secure, minimalist base", "They include every known debugging tool", "They bypass network firewalls"], a: 1, exp: "Alpine Linux uses musl libc and busybox, stripping out bloat. Smaller images mean faster deployments and a reduced security attack surface."}
+        ],
+        k8s: [
+            {q: "What is a Kubernetes Pod?", o: ["A physical server", "The smallest deployable unit containing one or more tightly coupled containers sharing network and storage", "A load balancer configuration", "A persistent hard drive"], a: 1, exp: "Pods abstract the container runtime. Containers inside the same pod share the same IP address and can communicate via localhost."},
+            {q: "What is 'etcd' in the Kubernetes control plane?", o: ["A container runtime", "A web-based UI dashboard", "A highly-available, distributed key-value store acting as the cluster's single source of truth database", "A network routing mesh"], a: 2, exp: "Every configuration, state, and secret in Kubernetes is stored in etcd. If etcd is lost and not backed up, the cluster is dead."},
+            {q: "How does the Kube-Scheduler work?", o: ["It builds container images", "It evaluates resource requests, taints, and affinities to assign newly created Pods to the most optimal Worker Node", "It routes public HTTP traffic", "It manages billing"], a: 1, exp: "The scheduler watches for unassigned pods and finds the best node based on available CPU/RAM and hardware constraints."},
+            {q: "What does the Kubelet do?", o: ["Provides DNS resolution", "It is the primary node agent that talks to the control plane and ensures containers are running healthy on its specific node", "Stores the etcd database", "Manages cloud load balancers"], a: 1, exp: "Kubelet takes instructions (PodSpecs) from the API server and interfaces with Docker/containerd to ensure the pod is actively running."},
+            {q: "Difference between a Service and an Ingress?", o: ["Services manage pods, Ingress manages nodes", "An Ingress provides L4 load balancing; Services provide L7 proxying", "A Service provides internal L4 network routing; An Ingress is an L7 HTTP/S routing proxy for external traffic", "They are identical"], a: 2, exp: "Services expose pods internally via IP/Port. Ingress exposes HTTP routes from outside the cluster to services, handling SSL and URL paths."},
+            {q: "How do you handle sensitive passwords in K8s?", o: ["Hardcode them in the Deployment YAML", "Store them as Kubernetes Secrets (base64 encoded) and mount them as files or environment variables", "Put them in a public ConfigMap", "Print them to pod logs"], a: 1, exp: "Secrets decouple sensitive credentials from application code. Note that base64 is not encryption; RBAC and KMS encryption should also be applied."},
+            {q: "What is a ReplicaSet?", o: ["A backup of the etcd database", "An object that ensures a specified, stable number of identical Pod replicas are running at all times", "A storage volume cloner", "A tool to duplicate nodes"], a: 1, exp: "If a node crashes and takes down 2 pods, the ReplicaSet immediately spawns 2 new pods on healthy nodes to maintain the desired count."},
+            {q: "Deployment vs StatefulSet?", o: ["StatefulSets run on Windows", "Deployments are for stateless apps (random IDs); StatefulSets are for stateful apps requiring stable identities and persistent storage", "Deployments cannot scale", "StatefulSets are deprecated"], a: 1, exp: "Databases use StatefulSets because they need predictable names (db-0, db-1) and stable storage attached to the exact same pod after restarts."},
+            {q: "What is a DaemonSet?", o: ["An object that ensures a copy of a specific Pod runs on ALL (or selected) Nodes, useful for logging or monitoring agents", "A malicious virus pod", "A temporary batch job", "A K8s network driver"], a: 0, exp: "If you add a new worker node to the cluster, a DaemonSet automatically spawns its pod on that new node without manual intervention."},
+            {q: "Liveness vs Readiness probes?", o: ["Liveness checks disk space; Readiness checks RAM", "Liveness determines if a pod needs restarting; Readiness determines if a pod is ready to receive network traffic", "They do the exact same thing", "Readiness boots the server"], a: 1, exp: "If a web app is deadlocked, Liveness restarts it. If the app is busy loading a huge database to memory, Readiness stops traffic from hitting it until it's done."},
+            {q: "What does a Horizontal Pod Autoscaler (HPA) do?", o: ["Upgrades the physical node RAM", "Scales the number of Pod replicas up or down automatically based on observed metrics like CPU utilization", "Moves pods across datacenters", "Encrypts pod traffic"], a: 1, exp: "HPA watches metrics. If CPU usage spikes above 80%, it updates the Deployment to spawn more pods to handle the traffic load."},
+            {q: "ConfigMap vs Secret?", o: ["ConfigMaps are encrypted, Secrets are not", "ConfigMaps store non-sensitive config data in plaintext; Secrets handle sensitive data", "ConfigMaps map URLs to IPs", "Secrets are only for root users"], a: 1, exp: "Use ConfigMaps for things like 'LOG_LEVEL=debug' or nginx.conf files. Use Secrets for 'DB_PASS=xyz'."},
+            {q: "How do Taints and Tolerations work?", o: ["They delete old pods", "They encrypt network traffic", "Nodes apply 'Taints' to repel pods; Pods apply 'Tolerations' to be allowed to schedule on tainted nodes", "They manage storage IOPS"], a: 2, exp: "Taints are like a lock on a node (e.g., 'GPU-only'). Only pods that possess the matching Toleration (the key) can be scheduled there."},
+            {q: "What is Helm?", o: ["A K8s firewall", "The package manager for K8s, bundling YAML files into reusable 'Charts' for easy deployment and templating", "A monitoring dashboard", "A secret encryption tool"], a: 1, exp: "Helm allows you to deploy complex applications (like a full Prometheus stack) with a single command, injecting custom variables dynamically."},
+            {q: "What is a PersistentVolumeClaim (PVC)?", o: ["A request submitted by a user for specific storage space and performance, which binds to a PersistentVolume", "A claim to own a worker node", "A billing invoice from the cloud provider", "A network routing rule"], a: 0, exp: "PVCs abstract storage. A developer claims 10GB of fast storage; K8s finds or dynamically provisions a matching disk (PV) behind the scenes."},
+            {q: "How does a RollingUpdate strategy work?", o: ["Deletes all old pods simultaneously, causing downtime, then starts new ones", "Increases node sizes", "Incrementally replaces old pods with new ones one by one, ensuring zero service downtime", "Rolls back to a previous backup"], a: 2, exp: "Rolling updates ensure capacity is never completely lost. K8s waits for the new pod to pass readiness checks before terminating the old one."},
+            {q: "What does Kube-Proxy do?", o: ["Maintains network rules on nodes (using iptables/IPVS) to enable communication to Pods from internal or external networks", "Acts as the API gateway for administrators", "Monitors pod CPU usage", "Backs up the etcd database"], a: 0, exp: "Kube-proxy is the network brain on each node, ensuring that when you hit a Service IP, the traffic is actually routed to the correct backend pod."},
+            {q: "What is the 'kube-apiserver'?", o: ["A database for container images", "A web UI for developers", "The front-end control plane component that exposes the K8s API and validates all REST requests", "A storage provisioner"], a: 2, exp: "Every action in K8s (kubectl commands, node communications) goes through the API server. It is the central nervous system of the cluster."},
+            {q: "What causes an 'ImagePullBackOff' error?", o: ["The node is out of memory", "The network is too fast", "K8s cannot pull the container image due to a typo in the name, missing tag, or lack of registry auth secrets", "The pod is stuck in a loop"], a: 2, exp: "K8s tries to download the image, fails, and backs off. 'kubectl describe pod' will show exactly why the pull failed (e.g., 401 Unauthorized)."},
+            {q: "Why use Kubernetes Namespaces?", o: ["To format the hard drive", "To create virtual cluster partitions for isolating resources, teams, or environments (e.g., dev vs prod) in one physical cluster", "To assign public domain names", "To speed up network traffic"], a: 1, exp: "Namespaces provide logical isolation. You can apply RBAC and resource quotas per namespace so teams don't interfere with each other."},
+            {q: "What is a Custom Resource Definition (CRD)?", o: ["A K8s extension allowing users to define entirely new, custom object types tailored to their unique applications", "A custom hardware server", "A specific type of encrypted storage", "A manual override switch"], a: 0, exp: "CRDs allow you to make K8s understand concepts it wasn't built for. For example, creating a 'Certificate' object managed by Cert-Manager."},
+            {q: "What is a Headless Service?", o: ["A service that has crashed", "A Service with 'clusterIP: None', used to bypass load balancing and get direct IP addresses of backend Pods (used in StatefulSets)", "A service without a name", "A service with no backend pods"], a: 1, exp: "Instead of proxying traffic through a single IP, a headless service returns the DNS A records of all the individual pods directly to the client."},
+            {q: "How do you investigate a 'CrashLoopBackOff' pod?", o: ["Reboot the whole cluster", "Use 'kubectl logs <pod> --previous' to see why the app crashed before K8s restarted it", "Delete the pod immediately", "Format the node storage"], a: 1, exp: "CrashLoop means the app starts and instantly dies. Checking the previous container's logs is the only way to see the stack trace or fatal error."},
+            {q: "What is a Sidecar Container?", o: ["A container that transports files", "A secondary helper container running in the same pod as the main app, used for tasks like logging or proxying (Service Mesh)", "A backup of the main container", "An external load balancer"], a: 1, exp: "Because they are in the same pod, the sidecar shares the filesystem and network, allowing it to transparently intercept logs or encrypt traffic."},
+            {q: "What is a Network Policy?", o: ["A cloud provider billing rule", "The cluster's internal firewall, explicitly defining which pods can communicate with other pods or endpoints via ingress/egress rules", "A VPN tunnel to on-premise", "A DNS configuration file"], a: 1, exp: "By default, all pods in K8s can talk to all other pods. Network Policies enforce zero-trust by blocking traffic unless explicitly allowed."}
+        ]
+    };
+
+    // 🔥 DYNAMIC INITIALIZATION 🔥
+    function init() {
+        const area = document.getElementById('quizArea');
+        for (let sec in quizData) {
+            const div = document.createElement('div');
+            div.id = sec;
+            div.className = `section-content ${sec === 'linux' ? 'active-section' : ''}`;
+            
+            const docBox = document.createElement('div');
+            docBox.className = "inner-doc-box";
+            docBox.innerHTML = `<a href="#" class="inner-doc-link" onclick="openDocFile('${sec}.docx'); return false;">📖 OPEN ${sec.toUpperCase()} DOCUMENT</a>`;
+            div.appendChild(docBox);
+
+            quizData[sec].forEach((item, i) => {
+                const card = document.createElement('div');
+                card.className = "question-card";
+                
+                let optionsHtml = '';
+                item.o.forEach((opt, idx) => {
+                    optionsHtml += `<div class="opt" onclick="checkAns(this, ${idx === item.a})">${opt}</div>`;
+                });
+
+                card.innerHTML = `
+                    <span class="q-text">Q${i+1}: ${item.q}</span>
+                    <div class="options">${optionsHtml}</div>
+                    <div class="exp-box"><strong>Explanation:</strong> ${item.exp}</div>
+                `;
+                div.appendChild(card);
+            });
+            area.appendChild(div);
+        }
+    }
+
+    // 🔥 TAB SWITCHING 🔥
+    function switchTab(id) {
+        document.querySelectorAll('.section-content').forEach(s => s.classList.remove('active-section'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        
+        let targetSec = document.getElementById(id);
+        if(targetSec) { targetSec.classList.add('active-section'); }
+        
+        event.currentTarget.classList.add('active');
+        document.getElementById('docViewerContainer').style.display = 'none';
+        document.getElementById('quizArea').style.display = 'block';
+        window.scrollTo(0,0);
+    }
+
+    // 🔥 DOC VIEWER 🔥
+    function openDocFile(name) {
+        document.getElementById('quizArea').style.display = 'none';
+        document.querySelectorAll('.section-content').forEach(s => s.classList.remove('active-section'));
+        const viewer = document.getElementById('docViewerContainer');
+        viewer.style.display = 'block';
+        let base = window.location.href.substring(0, window.location.href.lastIndexOf("/") + 1);
+        const fileUrl = base + name;
+        document.getElementById('docFrame').src = "https://docs.google.com/gview?url=" + encodeURIComponent(fileUrl) + "&embedded=true";
+        window.scrollTo(0,0);
+    }
+
+    // 🔥 ANSWER CHECKING 🔥
+    function checkAns(el, isCorrect) {
+        const opts = el.parentElement.querySelectorAll('.opt');
+        opts.forEach(o => o.classList.remove('correct', 'wrong'));
+        
+        el.classList.add(isCorrect ? 'correct' : 'wrong');
+        
+        const expBox = el.parentElement.nextElementSibling;
+        if(expBox && expBox.classList.contains('exp-box')) {
+            expBox.style.display = 'block';
+        }
+    }
+
+    function filterQuiz() {
+        let val = document.getElementById('quizSearch').value.toLowerCase();
+        document.querySelectorAll('.question-card').forEach(c => {
+            c.style.display = c.innerText.toLowerCase().includes(val) ? "block" : "none";
+        });
+    }
+
+    // 🔥 MARK42 GITHUB PHOTOS API LOGIC 🔥
+    let photosArray = [];
+    let currentLightboxIndex = 0;
+    let currentZoom = 1;
+
+    function openMark42Photos() {
+        switchTab('mark42Section');
+        const grid = document.getElementById('mark42Grid');
+        if(grid.innerHTML === '') {
+            grid.innerHTML = '<p style="text-align:center;width:100%;color:var(--accent);"><b><i class="fa-solid fa-spinner fa-spin"></i> Loading Photos from Mark42...</b></p>';
+            
+            // Using GitHub API to fetch files from photos directory
+            fetch("https://api.github.com/repos/narendramahi007-cloud/mark42/contents/photos")
+            .then(res => res.json())
+            .then(data => {
+                grid.innerHTML = '';
+                photosArray = [];
+                if(data && data.length > 0) {
+                    data.forEach(file => {
+                        if(file.name.match(/\.(jpg|jpeg|png|gif)$/i)) {
+                            photosArray.push(file.download_url);
+                            let idx = photosArray.length - 1;
+                            grid.innerHTML += `<div class="photo-card" onclick="openLightbox(${idx})"><img src="${file.download_url}" loading="lazy"></div>`;
+                        }
+                    });
+                } else {
+                    grid.innerHTML = '<p style="text-align:center;width:100%;color:red;">No photos found in mark42/photos repository.</p>';
+                }
+            }).catch(err => {
+                grid.innerHTML = '<p style="text-align:center;width:100%;color:red;">Failed to load photos. Please check your GitHub Repo.</p>';
+            });
+        }
+    }
+
+    // 🔥 LIGHTBOX FULLSCREEN LOGIC WITH ZOOM 🔥
+    function openLightbox(index) {
+        document.getElementById('mediaLightbox').style.display = 'flex';
+        currentLightboxIndex = index;
+        currentZoom = 1;
+        renderLightboxMedia();
+    }
+
+    function closeLightbox() {
+        document.getElementById('mediaLightbox').style.display = 'none';
+        document.getElementById('lightboxContent').innerHTML = '';
+    }
+
+    function navLightbox(direction) {
+        currentLightboxIndex += direction;
+        if (currentLightboxIndex < 0) currentLightboxIndex = photosArray.length - 1;
+        if (currentLightboxIndex >= photosArray.length) currentLightboxIndex = 0;
+        currentZoom = 1; // Reset zoom on next photo
+        renderLightboxMedia();
+    }
+
+    function renderLightboxMedia() {
+        const contentBox = document.getElementById('lightboxContent');
+        const counter = document.getElementById('lightboxCounter');
+        const mediaUrl = photosArray[currentLightboxIndex];
+        
+        counter.innerText = `${currentLightboxIndex + 1} / ${photosArray.length}`;
+        // Using ondblclick for double tap to zoom
+        contentBox.innerHTML = `<img id="lightboxImg" src="${mediaUrl}" alt="Media" ondblclick="toggleZoom()">`;
+        applyZoom();
+    }
+
+    function toggleZoom() {
+        currentZoom = currentZoom === 1 ? 2 : 1;
+        applyZoom();
+    }
+    
+    function zoomIn() { 
+        if(currentZoom < 4) currentZoom += 0.5; 
+        applyZoom(); 
+    }
+    
+    function zoomOut() { 
+        if(currentZoom > 1) currentZoom -= 0.5; 
+        applyZoom(); 
+    }
+
+    function applyZoom() {
+        const img = document.getElementById('lightboxImg');
+        if(img) {
+            img.style.transform = `scale(${currentZoom})`;
+            img.style.cursor = currentZoom > 1 ? 'zoom-out' : 'zoom-in';
+        }
+    }
+
+    init();
+</script>
+</body>
+</html>
